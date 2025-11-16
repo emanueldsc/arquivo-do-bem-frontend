@@ -1,0 +1,15 @@
+FROM node:20
+
+WORKDIR /app
+
+# Copia e instala apenas as dependências para o cache
+COPY package.json ./
+RUN npm install
+
+# O volume em docker-compose.yml (./frontend:/app)
+# fará o hot-reloading funcionar com seu código fonte local.
+
+EXPOSE 3000
+
+# Inicia o servidor de desenvolvimento do Vite
+CMD ["npm", "run", "dev"]

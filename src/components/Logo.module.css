@@ -1,0 +1,41 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+
+    .logo {
+        height: 50px;
+        margin: 0;
+    }
+
+    >div {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+
+        h1 {
+            margin: 0;
+            font-size: 1rem;
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+                "Helvetica Neue", Arial;
+
+            &.arquivo {
+                color: #0ea5a4;
+            }
+
+            &.do {
+                color: #46bcd0;
+            }
+
+            &.bem {
+                color: #7dd3fc;
+            }
+        }
+
+    }
+
+
+}

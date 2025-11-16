@@ -1,0 +1,33 @@
+.container {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+
+  .fieldText {
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    padding: 4px;
+    font-size: 0.8rem;
+  }
+
+  .submit {
+    background-color: #0ea5a4;
+    color: white;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 4px;
+    font-size: 0.8rem;
+
+    &:hover {
+      background-color: #086d6d;
+    }
+    &:active {
+      color: black;
+      background-color: #7dd3fc;
+    }
+  }
+
+}
