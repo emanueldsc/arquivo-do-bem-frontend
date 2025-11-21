@@ -1,0 +1,38 @@
+.container {
+    padding: 16px;
+    background-color: white;
+
+    button {
+        &:active {
+            background-color: #7dd3fc !important;
+        }
+
+    }
+
+}
+
+.tab {
+    border-radius: 8px 8px 0 0;
+}
+
+.tabBar {
+    border-bottom: 1px solid #55B4BF;
+}
+
+.content {
+    border: 1px solid;
+    border-image: linear-gradient(170deg, #55B4BF, #ade4eb00) 1;
+    padding: 16px;
+}
+
+.active {
+    background-color: #55B4BF;
+    color: white;
+
+    &:hover {
+        background-color: #55B4BF !important;
+        color: white !important;
+    }
+
+
+}

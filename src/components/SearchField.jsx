@@ -4,7 +4,7 @@ export function SeachFiled() {
   return (
     <div className={style.container}>
       <input
-        className={style.fieldText}
+        className={`w3-input w3-border  ${style.fieldText}`}
         type="text"
         name="searchfield"
         id="searchfield"

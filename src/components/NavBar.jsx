@@ -2,9 +2,13 @@ import { NavLink } from "react-router-dom";
 import { Logo } from "./Logo";
 import { SeachFiled } from "./SearchField";
 
+import { useState } from "react";
+import { AuthModal } from "./AuthModal";
 import style from "./NavBar.module.css";
 
 export function NavBar() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <>
       <nav className={style.nav}>
@@ -30,14 +34,6 @@ export function NavBar() {
             Repositório
           </NavLink>
           <NavLink
-            to="/gestao"
-            className={({ isActive }) =>
-              isActive ? `${style.active}` : undefined
-            }
-          >
-            Gestão de Projetos
-          </NavLink>
-          <NavLink
             to="/professor"
             className={({ isActive }) =>
               isActive ? `${style.active}` : undefined
@@ -53,12 +49,20 @@ export function NavBar() {
           >
             Painel do Aluno
           </NavLink>
+          <button
+            className={style.btnLogin}
+            onClick={() => setIsModalOpen(true)}
+          >
+            Login
+          </button>
         </section>
 
         <section>
           <SeachFiled />
         </section>
       </nav>
+
+      <AuthModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );
 }

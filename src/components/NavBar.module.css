@@ -42,3 +42,19 @@
   }
 
 }
+
+.btnLogin {
+  padding: 16px 12px;
+  background-color: #55B4BF;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial;
+
+  &:hover, &:active {
+    background-color: #3f8b94;
+  }
+}

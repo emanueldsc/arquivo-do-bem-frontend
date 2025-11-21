@@ -1,0 +1,32 @@
+.modal {
+  border-radius: 8px;
+
+  header {
+    border-radius: 8px 8px 0 0;
+    color: white;
+    background-color: #55B4BF;
+  }
+
+  span.modal-close-button {
+    border-radius: 50%;
+    background-color: transparent;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 4px;
+    &:hover {
+      background-color: #00000033 !important;
+      color: lightgray !important;
+    }
+  }
+  
+  .register-footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+  }
+}
+

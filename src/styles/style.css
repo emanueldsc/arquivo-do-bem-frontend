@@ -5,7 +5,6 @@
 
 body {
     background-color: #f4f8fa;
-    background-color: green;
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -89,4 +88,13 @@ main {
         filter: brightness(85%);
     }
 
+}
+
+.w3-button {
+    border-radius: 4px;
+}
+
+.w3-button:hover {
+    background-color: #55B4BF !important;
+    color: white !important;
 }

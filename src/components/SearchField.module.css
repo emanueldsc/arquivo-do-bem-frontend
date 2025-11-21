@@ -8,8 +8,9 @@
   .fieldText {
     border: 1px solid lightgray;
     border-radius: 4px;
-    padding: 4px;
+    padding: 4px 16px;
     font-size: 0.8rem;
+    line-height: 2rem;
   }
 
   .submit {
@@ -18,8 +19,9 @@
     border: 1px solid transparent;
     border-radius: 4px;
     cursor: pointer;
-    padding: 4px;
-    font-size: 0.8rem;
+    padding: 4px 16px;
+    font-size: 1rem;
+    line-height: 2rem;
 
     &:hover {
       background-color: #086d6d;
