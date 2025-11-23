@@ -1,0 +1,94 @@
+.page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: #f4f8fa; /* mesmo fundo do body */
+  padding: 16px;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border: 1px solid #e6e9ef;
+  border-radius: 16px; /* mesma vibe dos cards sidebar */
+  padding: 24px;
+  color: #0f172a;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin-top: 6px;
+  margin-bottom: 16px;
+  color: #64748b; /* mesma cor de texto secundário */
+  font-size: 0.95em;
+}
+
+.form {
+  display: grid;
+  gap: 12px;
+}
+
+.label {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.input {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #e6e9ef;
+  background: #ffffff;
+  color: #0f172a;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #55B4BF;
+  box-shadow: 0 0 0 3px rgba(85, 180, 191, 0.15);
+}
+
+.button {
+  margin-top: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  background-color: #0ea5a4; /* igual btn padrão */
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button:hover {
+  filter: brightness(85%);
+}
+
+.button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.error {
+  margin-top: 12px;
+  color: tomato; /* igual btn-remove */
+  font-weight: 600;
+}
+
+.successBox {
+  margin-top: 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.success {
+  color: #0ea5a4;
+  font-weight: 700;
+}

@@ -2,6 +2,7 @@ import { createHashRouter } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { Home } from "./pages/Home";
 import { ProfessorPanel } from "./pages/ProfessorPanel";
+import RegisterProfessor from "./pages/RegisterProfessor";
 import { Repository } from "./pages/Repository";
 import { StudentPanel } from "./pages/StudentPanel";
 
@@ -16,7 +17,7 @@ export const router = createHashRouter([
       },
       {
         path: "repositorio",
-        element: <Repository />
+        element: <Repository />,
       },
       {
         path: "professor",
@@ -26,6 +27,13 @@ export const router = createHashRouter([
         path: "aluno",
         element: <StudentPanel />,
       },
+
     ],
+  },
+  
+  // 🔥 ROTA OCULTA — só acessível via URL digitada
+  {
+    path: "register-professor",
+    element: <RegisterProfessor />,
   },
 ]);
