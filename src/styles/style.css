@@ -95,6 +95,20 @@ main {
 }
 
 .w3-button:hover {
-    background-color: #55B4BF !important;
-    color: white !important;
+    background-color: white !important  ;
+    color: lightgray !important;
+}
+
+.alert {
+    padding: 0 4px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    border: 1px solid lightgray;
+
+    span {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        height: 1rem;
+    }
 }

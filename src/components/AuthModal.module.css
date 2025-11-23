@@ -1,6 +1,16 @@
 .modal {
   border-radius: 8px;
 
+  .modal-primary-color {
+    background-color: #55B4BF !important;
+    color: white !important;
+
+    &:hover {
+      background-color: #419599 !important;
+      color: white !important;
+    }
+  }
+
   header {
     border-radius: 8px 8px 0 0;
     color: white;
@@ -28,5 +38,13 @@
       align-items: center;
       gap: 8px;
   }
+
+  .modal-footer {
+    border-radius: 0 0 8px 8px;
+  }
 }
 
+.close-mesage {
+  float: right;
+  cursor: pointer;
+}

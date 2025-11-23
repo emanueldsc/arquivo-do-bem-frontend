@@ -1,44 +1,84 @@
-import React, { createContext, useEffect, userContext, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import api from "../services/api";
+import { tokenService } from "../services/tokenService";
 
-const AuthContext = createContext();
+const AuthContext = createContext(null);
 
-export function userAuth() {
-  return userContext(AuthContext);
+export function useAuth() {
+  return useContext(AuthContext);
 }
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState({
-    loggedIn: false,
-    name: null,
-    roles: [],
-  });
+  const [user, setUser] = useState(null);
+  const [isLogged, setIsLogged] = useState(false);
+  const [loadingAuth, setLoadingAuth] = useState(true);
 
-  const [loading, setLoading] = useState(true);
+  // 🔥 Extrai role do formato que o Strapi retorna
+  function getRole(u) {
+    if (!u) return null;
 
+    if (typeof u.role === "string") return u.role;
+    if (typeof u.role === "number") return null;
+
+    return u.role?.name || u.roles?.[0]?.name || null;
+  }
+
+  // 🔥 Carrega o usuário quando o app inicia
   useEffect(() => {
-    // 1️⃣ Tenta carregar dados vindos do WordPress, se houver
-    const wp = window.__WP_DATA__;
+    async function init() {
+      const token = tokenService.getToken();
+      const storedUser = tokenService.getUser();
 
-    if (wp?.currentUser) {
-      setUser({
-        loggedIn: true,
-        name: wp.currentUser.display_name,
-        roles: wp.currentUser.roles || [],
-      });
-      setLoading(false);
-      return;
+      if (!token || !storedUser) {
+        setLoadingAuth(false);
+        return;
+      }
+
+      setUser(storedUser);
+      setIsLogged(true);
+
+      // 🔥 Validação real no backend
+      try {
+        const res = await api.get("/api/users/me?populate=role");
+        setUser(res.data);
+        tokenService.save({ jwt: token, user: res.data });
+      } catch (err) {
+        // token inválido / expirado
+        tokenService.clear();
+        setUser(null);
+        setIsLogged(false);
+      }
+
+      setLoadingAuth(false);
     }
 
-    // 2️⃣ (opcional) pode futuramente consultar a API REST:
-    // fetch(wp.restUrl + "me", { headers: { "X-WP-Nonce": wp.nonce } })
-    //   .then((r) => r.json())
-    //   .then((data) => setUser(data))
-    //   .finally(() => setLoading(false));
-
-    setLoading(false);
+    init();
   }, []);
 
-  const value = { user, setUser, loading };
+  const role = getRole(user);
+  const isStudent = role === "Student";
+  const isProfessor = role === "Professor";
+
+  function logout() {
+    tokenService.clear();
+    setUser(null);
+    setIsLogged(false);
+  }
+
+  const value = useMemo(
+    () => ({
+      user,
+      isLogged,
+      loadingAuth,
+      role,
+      isStudent,
+      isProfessor,
+      logout,
+      setUser,
+      setIsLogged,
+    }),
+    [user, isLogged, loadingAuth, role]
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

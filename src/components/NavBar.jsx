@@ -1,13 +1,20 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { AuthModal } from "./AuthModal";
 import { Logo } from "./Logo";
+import style from "./NavBar.module.css";
 import { SeachFiled } from "./SearchField";
 
-import { useState } from "react";
-import { AuthModal } from "./AuthModal";
-import style from "./NavBar.module.css";
+// ✅ novo
+import { useAuth } from "../context/AuthContext";
 
 export function NavBar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // ✅ novo
+  const { isLogged, isProfessor, isStudent, logout, loadingAuth } = useAuth();
+
+  if (loadingAuth) return null;
 
   return (
     <>
@@ -19,42 +26,55 @@ export function NavBar() {
         <section className={style.links}>
           <NavLink
             to="/"
-            className={({ isActive }) =>
-              isActive ? `${style.active}` : undefined
-            }
+            className={({ isActive }) => (isActive ? style.active : undefined)}
           >
             Home
           </NavLink>
+
           <NavLink
             to="/repositorio"
-            className={({ isActive }) =>
-              isActive ? `${style.active}` : undefined
-            }
+            className={({ isActive }) => (isActive ? style.active : undefined)}
           >
             Repositório
           </NavLink>
-          <NavLink
-            to="/professor"
-            className={({ isActive }) =>
-              isActive ? `${style.active}` : undefined
-            }
-          >
-            Painel do Professor
-          </NavLink>
-          <NavLink
-            to="/aluno"
-            className={({ isActive }) =>
-              isActive ? `${style.active}` : undefined
-            }
-          >
-            Painel do Aluno
-          </NavLink>
-          <button
-            className={style.btnLogin}
-            onClick={() => setIsModalOpen(true)}
-          >
-            Login
-          </button>
+
+          {/* ✅ só professor */}
+          {isLogged && isProfessor && (
+            <NavLink
+              to="/professor"
+              className={({ isActive }) =>
+                isActive ? style.active : undefined
+              }
+            >
+              Painel do Professor
+            </NavLink>
+          )}
+
+          {/* ✅ só student */}
+          {isLogged && isStudent && (
+            <NavLink
+              to="/aluno"
+              className={({ isActive }) =>
+                isActive ? style.active : undefined
+              }
+            >
+              Painel do Aluno
+            </NavLink>
+          )}
+
+          {/* ✅ login/logout */}
+          {!isLogged ? (
+            <button
+              className={style.btnLogin}
+              onClick={() => setIsModalOpen(true)}
+            >
+              Login
+            </button>
+          ) : (
+            <button className={style.btnLogin} onClick={logout}>
+              Logout
+            </button>
+          )}
         </section>
 
         <section>
@@ -62,7 +82,9 @@ export function NavBar() {
         </section>
       </nav>
 
-      <AuthModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      {!isLogged && (
+        <AuthModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      )}
     </>
   );
 }

@@ -1,9 +1,17 @@
 import { useState } from "react";
+import { authController } from "../controllers/authController";
+import {
+  ERROR_400,
+  ERROR_USER_ALREADY_EXISTS,
+  SUCCESS_REGISTER,
+} from "../utils/mesages";
 import style from "./AuthModal.module.css";
 
-export function AuthModal({ isOpen, onClose }) {
+import { useAuth } from "../context/AuthContext";
+
+export function AuthModal({ isOpen, onClose, onSuccess }) {
+  const { setUser, setIsLogged } = useAuth();
   const [authMode, setAuthMode] = useState("login");
-  const [roleType, setRoleType] = useState("student");
 
   const [form, setForm] = useState({
     username: "",
@@ -20,32 +28,72 @@ export function AuthModal({ isOpen, onClose }) {
     setForm((prev) => ({ ...prev, [name]: value }));
   }
 
-  async function handleRegister(e) {
-    e.preventDefault();
-    setLoading(true);
+  function resetForm() {
+    setForm({
+      username: "",
+      email: "",
+      password: "",
+    });
+    setError(null);
+  }
+
+  function resetMessages() {
     setError(null);
     setSuccess(null);
+  }
+
+  // 🔥 LOGIN
+  async function handleLoginSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+    resetMessages();
 
     try {
-      // Aqui você irá chamar sua função de registro
-      // registerStudent() ou registerProfessor()
-      console.log("Registrar", roleType, form);
-
-      setSuccess("Conta criada com sucesso!");
-
-      // Limpa os campos
-      setForm({ username: "", email: "", password: "" });
-
-      // Volta ao modo de login
-      setAuthMode("login");
+      const user = await authController.handleLogin({
+        identifier: form.email,
+        password: form.password,
+      });
+      setUser(user);
+      setIsLogged(true);
+      onSuccess?.(user);
+      resetForm();
+      onClose();
     } catch (err) {
-      setError("Erro ao registrar.");
+      setError(
+        err?.response?.data?.error?.message ||
+          err?.response?.data?.message ||
+          ERROR_400
+      );
     } finally {
       setLoading(false);
     }
   }
 
-  if (!isOpen) return null;
+  // 🔥 REGISTRO (sempre student)
+  async function handleRegisterSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+    resetMessages();
+
+    try {
+      await authController.handleRegisterStudent(form);
+      setSuccess(SUCCESS_REGISTER);
+      resetForm();
+      setAuthMode("login");
+    } catch (err) {
+      setError(
+        err?.response?.data?.error?.message ||
+          err?.response?.data?.message ||
+          ERROR_USER_ALREADY_EXISTS
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (!isOpen) {
+    return null;
+  }
 
   return (
     <div className={`w3-modal ${style.modal}`} style={{ display: "block" }}>
@@ -66,12 +114,7 @@ export function AuthModal({ isOpen, onClose }) {
         <div className="w3-container" style={{ padding: "16px 24px" }}>
           {/* LOGIN */}
           {authMode === "login" ? (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                console.log("login", form);
-              }}
-            >
+            <form onSubmit={handleLoginSubmit}>
               <label className="w3-text-black">
                 Email
                 <input
@@ -96,9 +139,33 @@ export function AuthModal({ isOpen, onClose }) {
                 />
               </label>
 
+              {error && (
+                <p className="w3-text-red alert w3-border-red">
+                  <span
+                    className={style["close-mesage"]}
+                    onClick={() => setError(null)}
+                  >
+                    &times;
+                  </span>
+                  {error}
+                </p>
+              )}
+              {success && (
+                <p className="w3-text-green alert w3-border-green">
+                  <span
+                    className={style["close-mesage"]}
+                    onClick={() => setSuccess(null)}
+                  >
+                    &times;
+                  </span>
+                  {success}
+                </p>
+              )}
+
               <button
                 type="submit"
-                className="w3-button w3-teal w3-block w3-margin-bottom"
+                className={`w3-button w3-block w3-margin-bottom ${style["modal-primary-color"]}`}
+                disabled={loading}
               >
                 Entrar
               </button>
@@ -108,7 +175,10 @@ export function AuthModal({ isOpen, onClose }) {
                 <button
                   type="button"
                   className="w3-button w3-small w3-white w3-border"
-                  onClick={() => setAuthMode("register")}
+                  onClick={() => {
+                    setAuthMode("register");
+                    resetForm();
+                  }}
                 >
                   Registrar
                 </button>
@@ -116,19 +186,7 @@ export function AuthModal({ isOpen, onClose }) {
             </form>
           ) : (
             /* REGISTRO */
-            <form onSubmit={handleRegister}>
-              <label className="w3-text-black">
-                Tipo de usuário
-                <select
-                  className="w3-select w3-border w3-margin-bottom"
-                  value={roleType}
-                  onChange={(e) => setRoleType(e.target.value)}
-                >
-                  <option value="student">Aluno</option>
-                  <option value="professor">Professor</option>
-                </select>
-              </label>
-
+            <form onSubmit={handleRegisterSubmit}>
               <label className="w3-text-black">
                 Nome de usuário
                 <input
@@ -165,12 +223,33 @@ export function AuthModal({ isOpen, onClose }) {
                 />
               </label>
 
-              {error && <p className="w3-text-red">{error}</p>}
-              {success && <p className="w3-text-green">{success}</p>}
+              {error && (
+                <p className="w3-text-red alert w3-border-red">
+                  <span
+                    className={style["close-mesage"]}
+                    onClick={() => setError(null)}
+                  >
+                    &times;
+                  </span>
+                  {error}
+                </p>
+              )}
+              {success && (
+                <p className="w3-text-green alert w3-border-green">
+                  <span
+                    className={style["close-mesage"]}
+                    onClick={() => setSuccess(null)}
+                  >
+                    &times;
+                  </span>
+                  {success}
+                </p>
+              )}
 
               <button
                 type="submit"
-                className="w3-button w3-teal w3-block w3-margin-bottom"
+                className={`w3-button w3-block w3-margin-bottom ${style["modal-primary-color"]}`}
+                disabled={loading}
               >
                 Registrar
               </button>
@@ -182,7 +261,10 @@ export function AuthModal({ isOpen, onClose }) {
                 <button
                   type="button"
                   className="w3-button w3-small w3-white w3-border"
-                  onClick={() => setAuthMode("login")}
+                  onClick={() => {
+                    setAuthMode("login");
+                    resetForm();
+                  }}
                 >
                   Voltar para login
                 </button>
@@ -191,7 +273,9 @@ export function AuthModal({ isOpen, onClose }) {
           )}
         </div>
 
-        <footer className="w3-container w3-teal">
+        <footer
+          className={`w3-container ${style["modal-footer"]} ${style["modal-primary-color"]}`}
+        >
           <p style={{ margin: 0, padding: "8px 0" }}>Portal Arquivo do Bem</p>
         </footer>
       </div>
