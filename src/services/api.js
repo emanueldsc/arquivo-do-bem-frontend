@@ -1,9 +1,8 @@
 import axios from "axios";
 
-const apiClient = axios.create({
-  // baseURL: "https://arquivo-do-bem-strapi-production.up.railway.app",
-  baseURL: "http://localhost:1337",
-});
+const baseURL = import.meta.env.VITE_API_URL || "http://localhost:1337";
+
+const apiClient = axios.create({ baseURL });
 
 apiClient.interceptors.request.use((config) => {
   const url = config.url || "";
