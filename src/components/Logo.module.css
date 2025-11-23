@@ -1,41 +1,43 @@
 .container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-1);
+
+  .logo {
+    height: 50px;
+    margin: 0;
+    display: block;
+  }
+
+  > div {
     display: flex;
-    flex-direction: row;
     justify-content: center;
-    align-items: center;
-    gap: 4px;
+    align-items: flex-start;
+    flex-direction: column;
+    line-height: 1.05;
 
-    .logo {
-        height: 50px;
-        margin: 0;
+    h1 {
+      margin: 0;
+      font-size: 1rem;
+      font-family: var(--font);
+      font-weight: 800;
+      letter-spacing: 0.2px;
+
+      &.arquivo {
+        color: var(--primary);
+      }
+
+      /* usa secundária do tema */
+      &.do {
+        color: var(--secondary);
+      }
+
+      /* tom suave derivado da primária */
+      &.bem {
+        color: var(--primary-600);
+      }
     }
-
-    >div {
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        flex-direction: column;
-
-        h1 {
-            margin: 0;
-            font-size: 1rem;
-            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
-                "Helvetica Neue", Arial;
-
-            &.arquivo {
-                color: #0ea5a4;
-            }
-
-            &.do {
-                color: #46bcd0;
-            }
-
-            &.bem {
-                color: #7dd3fc;
-            }
-        }
-
-    }
-
-
+  }
 }

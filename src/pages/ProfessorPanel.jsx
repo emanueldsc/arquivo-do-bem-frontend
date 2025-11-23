@@ -40,7 +40,7 @@ export function ProfessorPanel() {
       <section className={style.content}>
         <div
           id="institution"
-          className="w3-container city"
+          className="w3-container w3-padding-0"
           style={{ display: selectedTab === "institution" ? "block" : "none" }}
         >
           <InstitutionsManager />
@@ -48,7 +48,7 @@ export function ProfessorPanel() {
 
         <div
           id="projects"
-          className="w3-container city"
+          className="w3-container  w3-padding-0"
           style={{ display: selectedTab === "projects" ? "block" : "none" }}
         >
           <ProjectManager />
@@ -56,7 +56,7 @@ export function ProfessorPanel() {
 
         <div
           id="students"
-          className="w3-container city"
+          className="w3-container w3-padding-0"
           style={{ display: selectedTab === "students" ? "block" : "none" }}
         >
           <StudentManager />

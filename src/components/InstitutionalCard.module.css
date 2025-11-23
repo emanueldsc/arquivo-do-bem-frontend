@@ -1,87 +1,111 @@
 .card {
-  background-color: white;
-  padding: 16px;
-  border-radius: 16px;
-  transition: 0.2s;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-  
+  background-color: var(--surface);
+  padding: var(--space-4);
+  border-radius: var(--radius-xl);
+  transition: 0.2s ease;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-lg);
   }
 }
 
+/* ===========================
+   TÍTULO
+=========================== */
+
 .title {
   display: flex;
-  gap: 4px;
+  gap: var(--space-1);
   justify-content: space-between;
   align-items: center;
 
   h1 {
-    font-size: 17px;
-    color: #003366;
-    margin: 0 0 8px;
+    font-size: 1.1rem;
+    color: var(--text);
+    margin: 0 0 var(--space-2);
+    font-weight: 700;
   }
 
+  /* Badge */
   span {
     display: inline-block;
-    padding: 4px 10px;
+    padding: var(--space-1) var(--space-2);
     border-radius: 999px;
-    background: #00a676;
-    color: #fff;
+    background: var(--primary);
+    color: white;
     font-weight: 700;
-    font-size: 12px;
+    font-size: 0.75rem;
   }
-
 }
+
+/* ===========================
+   SUBTÍTULO
+=========================== */
 
 .subtitle {
-  color: #64748b;
-  margin: 8px 0 12px;
+  color: var(--text-muted);
+  margin: var(--space-2) 0 var(--space-3);
+  font-size: 0.95rem;
 }
 
+/* ===========================
+   CONTEÚDO
+=========================== */
+
 .content {
-  margin: 0 0 12px;
+  margin-bottom: var(--space-3);
+  color: var(--text);
+  font-size: 0.95rem;
 }
+
+/* ===========================
+   AÇÕES
+=========================== */
 
 .actions {
   display: flex;
-  gap: 8px;
+  gap: var(--space-2);
 
+  /* Botão principal (Projetos) */
   .btnProject {
     display: inline-block;
-    padding: 9px 14px;
-    border-radius: 8px;
-    background: #003366;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--primary);
     color: white;
     text-decoration: none;
     font-weight: 700;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     cursor: pointer;
-    transition: 0.2s;
-    border: 1px solid black;
+    transition: 0.2s ease;
+    border: 1px solid var(--primary);
+    box-shadow: var(--shadow-sm);
 
     &:hover {
-      background-color: #00a676;
-      border: 1px solid transparent;
+      background-color: var(--primary-600);
+      border-color: var(--primary-600);
       transform: scale(1.05);
     }
   }
 
+  /* Botão secundário (Instituição) */
   .btnInstitution {
     display: inline-block;
-    padding: 9px 14px;
-    border-radius: 8px;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
     background: transparent;
-    color: #003366;
+    color: var(--text);
     text-decoration: none;
     font-weight: 700;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     cursor: pointer;
-    transition: 0.2s;
+    transition: 0.2s ease;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
 
     &:hover {
+      background: var(--secondary-soft);
       transform: scale(1.05);
     }
   }

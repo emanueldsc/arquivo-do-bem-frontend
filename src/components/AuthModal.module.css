@@ -1,22 +1,43 @@
 .modal {
-  border-radius: 8px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+
+  /* ================================
+     BOTÕES E AÇÕES PRIMÁRIAS
+  ================================= */
 
   .modal-primary-color {
-    background-color: #55B4BF !important;
-    color: white !important;
+    background-color: var(--secondary);
+    color: white;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    padding: var(--space-2) var(--space-3);
+    cursor: pointer;
+    transition: 0.15s ease;
 
     &:hover {
-      background-color: #419599 !important;
-      color: white !important;
+      background-color: var(--secondary-soft);
+      color: var(--text);
+      box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2);
     }
   }
 
+  /* ================================
+     HEADER
+  ================================= */
+
   header {
-    border-radius: 8px 8px 0 0;
+    background-color: var(--secondary);
     color: white;
-    background-color: #55B4BF;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    padding: var(--space-3) var(--space-4);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
+  /* Botão de fechar (X) */
   span.modal-close-button {
     border-radius: 50%;
     background-color: transparent;
@@ -25,26 +46,63 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 4px;
+    cursor: pointer;
+    transition: 0.15s ease;
+
     &:hover {
-      background-color: #00000033 !important;
-      color: lightgray !important;
+      background-color: rgba(0, 0, 0, 0.1);
+      color: var(--text-muted);
     }
   }
-  
+
+  /* ================================
+     REGISTER FOOTER (texto/link)
+  ================================= */
+
   .register-footer {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+
+    a {
+      color: var(--primary);
+      font-weight: 600;
+      cursor: pointer;
+
+      &:hover {
+        filter: brightness(85%);
+      }
+    }
   }
 
+  /* ================================
+     MODAL FOOTER
+  ================================= */
+
   .modal-footer {
-    border-radius: 0 0 8px 8px;
+    background: var(--surface);
+    padding: var(--space-3) var(--space-4);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
   }
 }
+
+/* ================================
+   FECHAR MENSAGEM (fora do modal)
+================================ */
 
 .close-mesage {
   float: right;
   cursor: pointer;
+  color: var(--text-muted);
+  transition: 0.15s ease;
+
+  &:hover {
+    color: var(--text);
+  }
 }

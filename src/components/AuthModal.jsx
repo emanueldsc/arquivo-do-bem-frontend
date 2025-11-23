@@ -274,7 +274,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }) {
         </div>
 
         <footer
-          className={`w3-container ${style["modal-footer"]} ${style["modal-primary-color"]}`}
+          className={`w3-container ${style["modal-footer"]}`}
         >
           <p style={{ margin: 0, padding: "8px 0" }}>Portal Arquivo do Bem</p>
         </footer>

@@ -4,7 +4,7 @@ export function StudentManager() {
   const rows = fakeData;
 
   return (
-    <section className="container">
+    <section className="container tab-container">
       <section className={style.header}>
         <h1>Gestão de Alunos</h1>
 

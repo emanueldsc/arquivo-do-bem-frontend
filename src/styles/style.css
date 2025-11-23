@@ -1,114 +1,153 @@
+@import "./theme.css";
+
+/* ===========================
+   BASE
+=========================== */
+
 * {
-    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
-        "Helvetica Neue", Arial;
+  font-family: var(--font);
+  box-sizing: border-box;
 }
 
 body {
-    background-color: #f4f8fa;
-    max-width: 1200px;
-    margin: 0 auto;
+  background-color: var(--bg);
+  color: var(--text);
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 main {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
+
+/* ===========================
+   CONTAINER PADRÃO
+=========================== */
 
 .container {
-    box-sizing: border-box;
-    background-color: white;
-    padding: 16px;
-    border-radius: 8px;
+  background-color: var(--surface);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
 }
 
-.header {
-    >p {
-        color: #6b7280
-    }
-
-    h2 {
-        font-size: large;
-    }
+.tab-container {
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
 }
+
+/* ===========================
+   HEADER
+=========================== */
+
+.header > p {
+  color: var(--text-muted);
+}
+
+.header h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* ===========================
+   TABELAS
+=========================== */
 
 .table {
-    width: 100%;
-
-    table {
-        width: 100%;
-
-        th {
-            background-color: #f8fafc;
-            text-align: left;
-            padding: 16px;
-        }
-
-        td {
-            padding: 4px 16px;
-
-            /* button {
-                background-color: #0ea5a4;
-                color: white;
-                border-radius: 8px;
-                padding: 8px 12px;
-                border: none;
-                font-weight: 600;
-                cursor: pointer;
-
-                &:hover {
-                    background-color: #097e7e;
-                }
-            } */
-
-        }
-
-    }
+  width: 100%;
 }
+
+.table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  background-color: var(--secondary-soft);
+  text-align: left;
+  padding: var(--space-4);
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+}
+
+.table td {
+  padding: var(--space-2) var(--space-4);
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ===========================
+   BOTÕES
+=========================== */
 
 .btn {
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 12px;
-    box-sizing: border-box;
-    background-color: #0ea5a4;
-    color: white;
-
-    &.btn-edit {
-        border: 1px solid #0ea5a4;
-        background-color: white;
-        color: #0ea5a4;
-    }
-
-    &.btn-remove {
-        background-color: tomato;
-    }
-
-    &:hover {
-        filter: brightness(85%);
-    }
-
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--primary);
+  color: white;
+  transition: 0.15s ease;
 }
 
+.btn:hover {
+  filter: brightness(90%);
+}
+
+.btn:active {
+  background-color: var(--primary-600);
+}
+
+/* → Editar */
+.btn.btn-edit {
+  border: 1px solid var(--primary);
+  background-color: var(--surface);
+  color: var(--primary);
+}
+
+.btn.btn-edit:hover {
+  background-color: var(--primary-soft);
+}
+
+/* → Remover */
+.btn.btn-remove {
+  background-color: var(--danger);
+}
+
+/* ===========================
+   W3 BUTTON (LEGADO)
+=========================== */
+
 .w3-button {
-    border-radius: 4px;
+  border-radius: var(--radius-sm);
 }
 
 .w3-button:hover {
-    background-color: white !important  ;
-    color: lightgray !important;
+  background-color: var(--surface) !important;
+  color: var(--text-muted) !important;
 }
 
-.alert {
-    padding: 0 4px;
-    border-radius: 4px;
-    box-sizing: border-box;
-    border: 1px solid lightgray;
+/* ===========================
+   ALERTAS
+=========================== */
 
-    span {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        height: 1rem;
-    }
+.alert {
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  background: var(--surface);
+}
+
+.alert span {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 1rem;
+}
+
+.w3-padding-0 {
+  padding: var(--space-0) !important;
 }

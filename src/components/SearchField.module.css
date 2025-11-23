@@ -1,35 +1,55 @@
 .container {
-
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: var(--space-1);
+
+  /* ===========================
+     CAMPO DE TEXTO
+  ============================ */
 
   .fieldText {
-    border: 1px solid lightgray;
-    border-radius: 4px;
-    padding: 4px 16px;
-    font-size: 0.8rem;
-    line-height: 2rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-2) var(--space-4);
+    font-size: 0.9rem;
+    line-height: 1.8rem;
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+    transition: 0.15s ease;
   }
+
+  .fieldText:focus {
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px var(--secondary-soft);
+  }
+
+  /* ===========================
+     BOTÃO SUBMIT
+  ============================ */
 
   .submit {
-    background-color: #0ea5a4;
+    background-color: var(--primary);
     color: white;
-    border: 1px solid transparent;
-    border-radius: 4px;
+    border: 1px solid var(--primary);
+    border-radius: var(--radius-md);
     cursor: pointer;
-    padding: 4px 16px;
-    font-size: 1rem;
-    line-height: 2rem;
-
-    &:hover {
-      background-color: #086d6d;
-    }
-    &:active {
-      color: black;
-      background-color: #7dd3fc;
-    }
+    padding: var(--space-2) var(--space-4);
+    font-size: 0.95rem;
+    line-height: 1.8rem;
+    font-weight: 600;
+    transition: 0.15s ease;
   }
 
+  .submit:hover {
+    background-color: var(--primary-600);
+    border-color: var(--primary-600);
+  }
+
+  .submit:active {
+    background-color: var(--secondary);
+    border-color: var(--secondary);
+    color: white;
+  }
 }
