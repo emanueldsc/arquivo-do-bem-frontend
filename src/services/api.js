@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = import.meta.env.VITE_API_URL || "http://localhost:1337";
+const baseURL = import.meta.env.VITE_API_URL || "https://arquivo-do-bem-strapi-production.up.railway.app" || "http://localhost:1337";
 
 console.log("API URL:", import.meta.env.VITE_API_URL);
 
