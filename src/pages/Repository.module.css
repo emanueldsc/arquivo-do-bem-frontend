@@ -1,0 +1,299 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ===== Header ===== */
+.header h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ===== Table ===== */
+.table table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.table th,
+.table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.table th {
+  background: var(--bg);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.table tr:hover td {
+  background: var(--primary-soft);
+}
+
+/* ===== Footer (upload) ===== */
+.footer {
+  margin-top: 0.5rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ===== Fields ===== */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.field label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.field input[type="file"],
+.field input[type="text"] {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  font-size: 0.9rem;
+  color: var(--text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.field input[type="file"]::file-selector-button {
+  border: none;
+  background: var(--primary-soft);
+  color: var(--primary-600);
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  margin-right: 0.8rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.field input[type="file"]::file-selector-button:hover {
+  background: var(--secondary-soft);
+  color: var(--primary-600);
+}
+
+.field input[type="file"]:hover,
+.field input[type="text"]:hover {
+  border-color: var(--primary);
+}
+
+.field input[type="file"]:focus,
+.field input[type="text"]:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+  outline: none;
+}
+
+/* ===== Buttons ===== */
+.btn {
+  align-self: flex-start;
+  padding: 0.7rem 1.4rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.05s ease;
+}
+
+.btn:hover {
+  background: var(--primary-600);
+  box-shadow: 0 2px 8px rgba(14, 165, 164, 0.35);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* ===== Form + Error ===== */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.error {
+  color: var(--danger);
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: rgba(255, 99, 71, 0.12);
+  border: 1px solid rgba(255, 99, 71, 0.35);
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--radius-sm);
+}
+
+/* ===== Actions + Danger Button ===== */
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btnDanger {
+  align-self: flex-start;
+  padding: 0.7rem 1.2rem;
+  background: var(--danger);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s ease, box-shadow 0.2s ease, transform 0.05s ease;
+}
+
+.btnDanger:hover {
+  filter: brightness(0.9);
+  box-shadow: 0 2px 8px rgba(255, 99, 71, 0.35);
+}
+
+.btnDanger:active {
+  transform: translateY(1px);
+}
+
+.actions-container {
+  width: 100%;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.filterBar {
+  margin-top: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.filterBar select {
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.rowTooltip {
+  cursor: help;
+}
+
+.nameCell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.docTitle {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.docDescription {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.2;
+
+  /* opcional: corta se ficar gigante */
+  max-width: 420px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.docCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.cardTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.cardSemester {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary-600);
+  background: var(--primary-soft);
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.cardDescription {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.cardMeta {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cardActions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.3rem;
+}
+
+.empty {
+  color: var(--text-muted);
+  font-weight: 600;
+}
