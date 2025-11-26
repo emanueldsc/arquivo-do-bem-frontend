@@ -1,0 +1,81 @@
+/* InstitutionModal.module.css */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+/* Caixa da modal */
+
+.modal {
+  background-color: #ffffff;
+  border-radius: 12px;
+  /*   
+  max-width: 800px;
+  width: 96%;
+ */
+
+  width: 80vw;        /* largura = 80% do viewport */
+  height: 80vh;       /* altura = 80% do viewport */
+  max-width: none;    /* remove limite antigo */
+  max-height: none;   /* remove limite antigo */
+  overflow-y: auto;   /* garante scroll interno */
+
+  box-shadow:
+    0 10px 30px rgba(15, 23, 42, 0.45),
+    0 0 0 1px rgba(148, 163, 184, 0.4);
+  position: relative;
+  padding: 14px 16px 12px;
+  box-sizing: border-box;
+}
+
+/* Botão de fechar (X) */
+
+.closeButton {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  background-color: #f1f5f9;
+  color: #0f172a;
+  border: none;
+  font-size: 20px;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition:
+    background-color 0.15s ease,
+    transform 0.08s ease,
+    box-shadow 0.15s ease;
+}
+
+.closeButton:hover {
+  background-color: #e2e8f0;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.25);
+}
+
+.closeButton:active {
+  transform: scale(0.92);
+}
+
+/* Em telas pequenas, a modal ocupa mais altura */
+
+@media (max-width: 768px) {
+  .modal {
+    max-width: 100%;
+    width: 100%;
+    margin: 0 8px;
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+    padding: 12px 10px 10px;
+  }
+}

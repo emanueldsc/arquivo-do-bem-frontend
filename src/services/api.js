@@ -1,6 +1,27 @@
 import axios from "axios";
 
-const baseURL = import.meta.env.VITE_API_URL || "https://arquivo-do-bem-strapi-production.up.railway.app" || "http://localhost:1337";
+async function ping(...urls) {
+  for (const url of urls) {
+    try {
+      const response = await fetch(url, { method: "GET" });
+      if (response.ok) {
+        return url;
+      }
+    } catch (error) {
+      continue;
+    }
+  }
+
+  return null;
+}
+
+const baseURL = await ping(
+  // import.meta.env.VITE_API_URL,
+  // "https://arquivo-do-bem-strapi-production.up.railway.app",
+  "http://localhost:1337"
+);
+
+console.log("Resolved Base URL:", baseURL);
 
 console.log("API URL:", import.meta.env.VITE_API_URL);
 

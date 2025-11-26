@@ -1,7 +1,20 @@
+import { useState } from "react";
+import { InstitutionModal } from "../components/InstitutionModal";
 import style from "./ProjectManager.module.css";
 
 export function InstitutionsManager() {
   const rows = fakeData;
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  function handleInstitutionCreated(newInstitution) {
+    console.log("Instituição criada:", newInstitution);
+
+    // Aqui você poderá:
+    // - Atualizar lista de instituições
+    // - Fazer fetch automático
+    // - Mostrar toast
+  }
 
   return (
     <section className="container tab-container">
@@ -9,6 +22,13 @@ export function InstitutionsManager() {
         <h1>Gestão de Instituições</h1>
 
         <p>Crie, edite ou exlua projetos (area administrativa).</p>
+
+        <button
+          className="btn btn-primary"
+          onClick={() => setIsModalOpen(true)}
+        >
+          + Criar instituição
+        </button>
 
         <h2>Lista de projetos</h2>
       </section>
@@ -44,6 +64,13 @@ export function InstitutionsManager() {
       <section>
         <h2>Criar / Editar Projeto</h2>
       </section>
+
+      <InstitutionModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        institution={null} // null = criar nova
+        onSaved={handleInstitutionCreated}
+      />
     </section>
   );
 }

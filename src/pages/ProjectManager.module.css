@@ -1,6 +1,149 @@
+/* ProjectManager.module.css */
+
+/* CONTAINER DA ABA (a .container / .tab-container vem do global) */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.header h1 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+}
+
+.header p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.header h2 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #111827;
+  margin: 0.75rem 0 0;
+}
+
+/* Botão "+ Criar instituição" dentro do header */
+.header > button {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.45);
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.08s ease;
+}
+
+.header > button:hover {
+  background-color: #1d4ed8;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.55);
+}
+
+.header > button:active {
+  transform: translateY(1px);
+}
+
+/* TABELA */
+
+.tableWrapper {
+  margin-bottom: 1.5rem;
+}
+
+/* Se você quiser, envolva a table com <section className={`${style.tableWrapper} table`}> */
+
+:global(.table table) {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+:global(.table thead tr) {
+  background-color: #f8fafc;
+}
+
+:global(.table th),
+:global(.table td) {
+  padding: 0.55rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+:global(.table th) {
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+/* zebrando linhas de corpo (opcional) */
+:global(.table tbody tr:nth-child(even)) {
+  background-color: #f9fafb;
+}
+
+/* Container dos botões de ação */
+
 .btnContainer {
   display: flex;
-  gap: var(--space-2);
-  align-items: center;
-  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+/* Se seus .btn / .btn-edit / .btn-remove forem globais,
+   eles continuam funcionando. Aqui só garantimos algo
+   caso você queira usar o módulo: */
+
+.btn {
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.08s ease;
+}
+
+.btn:hover {
+  background-color: #e5e7eb;
+  border-color: #d1d5db;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btnEdit {
+  color: #1d4ed8;
+}
+
+.btnRemove {
+  color: #b91c1c;
+}
+
+/* Responsivo */
+
+@media (max-width: 768px) {
+  :global(.table table) {
+    font-size: 0.8rem;
+  }
+
+  .header > button {
+    width: 100%;
+    text-align: center;
+  }
 }
