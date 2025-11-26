@@ -172,7 +172,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }) {
 
               <div className={`w3-center w3-small ${style["register-footer"]}`}>
                 <span>Não tem conta?</span>
-                <button
+                {/* <button
                   type="button"
                   className="w3-button w3-small w3-white w3-border"
                   onClick={() => {
@@ -181,7 +181,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }) {
                   }}
                 >
                   Registrar
-                </button>
+                </button> */}
               </div>
             </form>
           ) : (
