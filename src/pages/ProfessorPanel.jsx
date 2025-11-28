@@ -1,14 +1,30 @@
-import { useState } from "react";
 import style from "./ProfessorPanel.module.css";
 
 import { InstitutionsManager } from "./InstitutionsManager";
-import { ProjectManager } from "./ProjectManager";
-import { StudentManager } from "./StudentManager";
 
-import { useAuth } from '../context/AuthContext';
+import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { ProjectsManager } from "./ProjectsManager";
+import { SemestersManager } from "./SemestersManager";
 
 export function ProfessorPanel() {
-  const [selectedTab, setSelectedTab] = useState("institution");
+  const location = useLocation();
+  const initialTabRef = useRef(null);
+
+  if (initialTabRef.current === null) {
+    initialTabRef.current =
+      location.state?.activeTab ||
+      localStorage.getItem("professorActiveTab") ||
+      "institutions";
+  }
+
+  const [selectedTab, setSelectedTab] = useState(initialTabRef.current);
+
+  useEffect(() => {
+    localStorage.setItem("professorActiveTab", selectedTab);
+  }, [selectedTab]);
+
   const { user } = useAuth();
 
   return (
@@ -24,9 +40,9 @@ export function ProfessorPanel() {
         <div className={`w3-bar w3-white ${style.tabBar}`}>
           <button
             className={`w3-bar-item w3-button w3-hover-white ${style.tab} ${
-              selectedTab === "institution" ? style.active : ""
+              selectedTab === "institutions" ? style.active : ""
             }`}
-            onClick={() => setSelectedTab("institution")}
+            onClick={() => setSelectedTab("institutions")}
           >
             Instituições
           </button>
@@ -40,20 +56,20 @@ export function ProfessorPanel() {
           </button>
           <button
             className={`w3-bar-item w3-button w3-hover-white ${style.tab} ${
-              selectedTab === "students" ? style.active : ""
+              selectedTab === "semesters" ? style.active : ""
             }`}
-            onClick={() => setSelectedTab("students")}
+            onClick={() => setSelectedTab("semesters")}
           >
-            Alunos
+            Semestres
           </button>
         </div>
 
         <section className={style.content}>
           <div
-            id="institution"
+            id="institutions"
             className="w3-container w3-padding-0"
             style={{
-              display: selectedTab === "institution" ? "block" : "none",
+              display: selectedTab === "institutions" ? "block" : "none",
             }}
           >
             <InstitutionsManager />
@@ -61,18 +77,17 @@ export function ProfessorPanel() {
 
           <div
             id="projects"
-            className="w3-container  w3-padding-0"
+            className="w3-container w3-padding-0"
             style={{ display: selectedTab === "projects" ? "block" : "none" }}
           >
-            <ProjectManager />
+            <ProjectsManager />
           </div>
-
           <div
-            id="students"
+            id="semesters"
             className="w3-container w3-padding-0"
-            style={{ display: selectedTab === "students" ? "block" : "none" }}
+            style={{ display: selectedTab === "semesters" ? "block" : "none" }}
           >
-            <StudentManager />
+            <SemestersManager />
           </div>
         </section>
       </section>

@@ -1,56 +1,59 @@
 /* ProjectManager.module.css */
+/* Estilização alinhada ao tema de cores do modal */
 
 /* CONTAINER DA ABA (a .container / .tab-container vem do global) */
 
 .header {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  gap: var(--space-2, 0.75rem);
+  margin-bottom: var(--space-4, 1.5rem);
 }
 
 .header h1 {
   font-size: 1.4rem;
   font-weight: 600;
-  color: #0f172a;
+  color: var(--text);
   margin: 0;
 }
 
 .header p {
   margin: 0;
   font-size: 0.9rem;
-  color: #64748b;
+  color: var(--text-muted);
 }
 
 .header h2 {
   font-size: 1.1rem;
   font-weight: 500;
-  color: #111827;
+  color: var(--text);
   margin: 0.75rem 0 0;
 }
 
-/* Botão "+ Criar instituição" dentro do header */
+/* Botão "+ Criar ..." dentro do header */
 .header > button {
   align-self: flex-start;
-  margin-top: 0.5rem;
-  padding: 0.45rem 0.9rem;
-  border-radius: 999px;
+  margin-top: var(--space-2, 0.5rem);
+  padding: var(--space-2, 0.45rem) var(--space-3, 0.9rem);
+  border-radius: var(--radius-md);
   border: 1px solid transparent;
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  background-color: #2563eb;
+  background-color: var(--secondary);
   color: #ffffff;
-  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.45);
+  box-shadow: var(--shadow-lg);
   transition:
     background-color 0.15s ease,
     box-shadow 0.15s ease,
-    transform 0.08s ease;
+    transform 0.08s ease,
+    color 0.15s ease;
 }
 
 .header > button:hover {
-  background-color: #1d4ed8;
-  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.55);
+  background-color: var(--secondary-soft);
+  color: var(--text);
+  box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2);
 }
 
 .header > button:active {
@@ -60,79 +63,91 @@
 /* TABELA */
 
 .tableWrapper {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-4, 1.5rem);
 }
 
-/* Se você quiser, envolva a table com <section className={`${style.tableWrapper} table`}> */
-
+/* A .table vem do global, aqui só refinamos o visual */
 :global(.table table) {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9rem;
+  background-color: var(--surface);
+  border-radius: var(--radius-md);
+  overflow: hidden;
 }
 
 :global(.table thead tr) {
-  background-color: #f8fafc;
+  background-color: var(--secondary-soft);
 }
 
 :global(.table th),
 :global(.table td) {
   padding: 0.55rem 0.75rem;
   text-align: left;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border);
 }
 
 :global(.table th) {
   font-weight: 600;
   font-size: 0.8rem;
-  color: #6b7280;
+  color: var(--text-muted);
   text-transform: uppercase;
 }
 
-/* zebrando linhas de corpo (opcional) */
+/* zebrando linhas de corpo */
 :global(.table tbody tr:nth-child(even)) {
-  background-color: #f9fafb;
+  background-color: var(--surface-alt, #f9fafb);
+}
+
+:global(.table tbody tr:hover) {
+  background-color: var(--secondary-soft);
+  transition: background-color 0.15s ease;
 }
 
 /* Container dos botões de ação */
 
 .btnContainer {
   display: flex;
-  gap: 0.35rem;
+  gap: var(--space-1, 0.35rem);
 }
 
-/* Se seus .btn / .btn-edit / .btn-remove forem globais,
-   eles continuam funcionando. Aqui só garantimos algo
-   caso você queira usar o módulo: */
+/* Botão genérico (caso queira usar o módulo em vez das classes globais .btn) */
 
 .btn {
   padding: 0.35rem 0.7rem;
-  border-radius: 999px;
-  border: 1px solid #e5e7eb;
-  background-color: #f9fafb;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background-color: var(--surface);
   font-size: 0.8rem;
   cursor: pointer;
+  color: var(--text);
   transition:
     background-color 0.15s ease,
     border-color 0.15s ease,
-    transform 0.08s ease;
+    transform 0.08s ease,
+    box-shadow 0.15s ease;
 }
 
 .btn:hover {
-  background-color: #e5e7eb;
-  border-color: #d1d5db;
+  background-color: var(--secondary-soft);
+  border-color: var(--secondary);
+  box-shadow: var(--shadow-lg);
 }
 
 .btn:active {
   transform: translateY(1px);
 }
 
+/* Variações semânticas */
+
 .btnEdit {
-  color: #1d4ed8;
+  color: var(--secondary);
+  font-weight: 600;
 }
 
 .btnRemove {
-  color: #b91c1c;
+  color: #b91c1c; /* se você tiver uma var(--danger), pode trocar aqui */
+  font-weight: 600;
 }
 
 /* Responsivo */

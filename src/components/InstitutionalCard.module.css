@@ -1,3 +1,5 @@
+/* src/components/InstitutionalCard.module.css */
+
 .card {
   background-color: var(--surface);
   padding: var(--space-4);
@@ -5,6 +7,9 @@
   transition: 0.2s ease;
   box-shadow: var(--shadow-md);
   border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 
   &:hover {
     transform: translateY(-3px);
@@ -13,7 +18,7 @@
 }
 
 /* ===========================
-   TÍTULO
+   TÍTULO + STATUS
 =========================== */
 
 .title {
@@ -25,11 +30,11 @@
   h1 {
     font-size: 1.1rem;
     color: var(--text);
-    margin: 0 0 var(--space-2);
+    margin: 0;
     font-weight: 700;
   }
 
-  /* Badge */
+  /* Badge de status */
   span {
     display: inline-block;
     padding: var(--space-1) var(--space-2);
@@ -38,27 +43,34 @@
     color: white;
     font-weight: 700;
     font-size: 0.75rem;
+    white-space: nowrap;
   }
 }
 
 /* ===========================
-   SUBTÍTULO
+   SUBTÍTULO (INSTITUIÇÃO)
 =========================== */
 
 .subtitle {
   color: var(--text-muted);
-  margin: var(--space-2) 0 var(--space-3);
-  font-size: 0.95rem;
+  margin: 0;
+  font-size: 0.9rem;
 }
 
 /* ===========================
-   CONTEÚDO
+   CONTEÚDO (DESCRIÇÃO)
 =========================== */
 
 .content {
-  margin-bottom: var(--space-3);
+  margin: var(--space-1) 0 var(--space-3);
   color: var(--text);
   font-size: 0.95rem;
+
+  /* Limita o texto para não esticar demais o card */
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* qnt de linhas */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* ===========================
@@ -68,45 +80,45 @@
 .actions {
   display: flex;
   gap: var(--space-2);
+}
 
-  /* Botão principal (Projetos) */
-  .btnProject {
-    display: inline-block;
-    padding: var(--space-2) var(--space-3);
-    border-radius: var(--radius-md);
-    background: var(--primary);
-    color: white;
-    text-decoration: none;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.2s ease;
-    border: 1px solid var(--primary);
-    box-shadow: var(--shadow-sm);
+/* Botão principal (Projetos) */
+.btnProject {
+  display: inline-block;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--primary);
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+  border: 1px solid var(--primary);
+  box-shadow: var(--shadow-sm);
 
-    &:hover {
-      background-color: var(--primary-600);
-      border-color: var(--primary-600);
-      transform: scale(1.05);
-    }
+  &:hover {
+    background-color: var(--primary-600);
+    border-color: var(--primary-600);
+    transform: scale(1.05);
   }
+}
 
-  /* Botão secundário (Instituição) */
-  .btnInstitution {
-    display: inline-block;
-    padding: var(--space-2) var(--space-3);
-    border-radius: var(--radius-md);
-    background: transparent;
-    color: var(--text);
-    text-decoration: none;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.2s ease;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-sm);
+/* Botão secundário (Instituição) */
+.btnInstitution {
+  display: inline-block;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
 
-    &:hover {
-      background: var(--secondary-soft);
-      transform: scale(1.05);
-    }
+  &:hover {
+    background: var(--secondary-soft);
+    transform: scale(1.05);
   }
 }

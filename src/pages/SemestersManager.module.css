@@ -1,0 +1,173 @@
+/* SemestersManager.module.css */
+/* Formulário horizontal, integrado à aba, usando as mesmas variáveis de tema. */
+
+.formSection {
+  margin-top: var(--space-4, 1.5rem);
+  padding-top: var(--space-3, 1rem);
+  border-top: 1px solid var(--border);
+}
+
+/* título e descrição mais discretos, para parecer parte da aba */
+.formTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 var(--space-1, 0.4rem);
+}
+
+.formSubtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0 0 var(--space-2, 0.6rem);
+}
+
+/* FORM EM LINHA (HORIZONTAL) */
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3, 1rem);
+  align-items: flex-end;
+}
+
+/* Cada campo */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 140px;
+  flex: 1 1 140px;
+}
+
+.label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* Inputs */
+
+.input {
+  width: 100%;
+  padding: 0.45rem 0.6rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background-color: var(--surface-alt, #f9fafb);
+  font-size: 0.9rem;
+  color: var(--text);
+  outline: none;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.input:focus {
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 1px var(--secondary-soft);
+  background-color: #ffffff;
+}
+
+/* Linha de ações (botões) fica à direita quando tiver espaço */
+
+.actionsRow {
+  display: flex;
+  gap: var(--space-2, 0.5rem);
+  margin-left: auto;
+  flex: 0 0 auto;
+}
+
+/* Mensagens ocupam linha inteira abaixo */
+
+.messagesRow {
+  flex: 1 1 100%;
+  margin-top: var(--space-1, 0.25rem);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2, 0.5rem);
+}
+
+.messageError {
+  font-size: 0.85rem;
+  color: #b91c1c;
+}
+
+.messageSuccess {
+  font-size: 0.85rem;
+  color: #15803d;
+}
+
+/* Botões */
+
+.secondaryButton {
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.08s ease,
+    box-shadow 0.15s ease;
+}
+
+.secondaryButton:hover {
+  background-color: var(--secondary-soft);
+  border-color: var(--secondary);
+  color: var(--text);
+  box-shadow: var(--shadow-lg);
+}
+
+.secondaryButton:active {
+  transform: translateY(1px);
+}
+
+.primaryButton {
+  padding: 0.45rem 1.1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  background-color: var(--secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: #ffffff;
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.08s ease,
+    color 0.15s ease;
+}
+
+.primaryButton:hover:not(:disabled) {
+  background-color: var(--secondary-soft);
+  color: var(--text);
+  box-shadow: var(--shadow-lg);
+}
+
+.primaryButton:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.primaryButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Responsivo: em telas menores, os campos quebram em várias linhas (mas ainda fica coeso) */
+
+@media (max-width: 768px) {
+  .form {
+    align-items: stretch;
+  }
+
+  .actionsRow {
+    width: 100%;
+    justify-content: flex-start;
+    margin-left: 0;
+  }
+}

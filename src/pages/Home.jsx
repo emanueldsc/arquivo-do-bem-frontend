@@ -1,135 +1,258 @@
+// src/pages/Home.jsx
+import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+
 import { InstitutionalCard } from "../components/InstitutionalCard";
+import api from "../services/api";
+
 import style from "./Home.module.css";
 
 export function Home() {
+  const [projects, setProjects] = useState([]);
+  const [institutions, setInstitutions] = useState([]);
+  const [uploads, setUploads] = useState([]);
+
+  const [loadingProjects, setLoadingProjects] = useState(true);
+  const [loadingInstitutions, setLoadingInstitutions] = useState(true);
+  const [loadingUploads, setLoadingUploads] = useState(true);
+
+  const [selectedInstitutionId, setSelectedInstitutionId] = useState("");
+  const [projectSearch, setProjectSearch] = useState("");
+
+  // =========================
+  // Fetch de dados
+  // =========================
+
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        setLoadingProjects(true);
+
+        const res = await api.get(
+          "/api/projects?sort=createdAt:desc&populate=institution"
+        );
+
+        const list = res.data?.data || [];
+
+        const formatted = list.map((item) => {
+          const base = item.attributes || item;
+          const docId = item.documentId || item.id;
+
+          const instData = base.institution?.data || null;
+          const instAttrs = instData?.attributes || {};
+          const institutionName = instAttrs.name || "(sem instituição)";
+          const institutionId = instData?.documentId || instData?.id || "";
+
+          return {
+            id: docId,
+            title: base.name || "(sem nome)", // título do card
+            content:
+              base.description ||
+              "Projeto sem descrição cadastrada no momento.",
+            institutionId,
+            institutionName,
+            status: base.is_active === false ? "inativo" : "ativo",
+          };
+        });
+
+        setProjects(formatted);
+      } catch (err) {
+        console.error("Erro ao buscar projetos:", err?.response?.data || err);
+      } finally {
+        setLoadingProjects(false);
+      }
+    }
+
+    async function fetchInstitutions() {
+      try {
+        setLoadingInstitutions(true);
+
+        const res = await api.get("/api/institutions?sort=name:asc&populate=institution");
+        const list = res.data?.data || [];
+
+        const formatted = list.map((item) => {
+          const base = item.attributes || item;
+          const docId = item.documentId || item.id;
+
+          return {
+            id: docId,
+            name: base.name || "(sem nome)",
+          };
+        });
+
+        setInstitutions(formatted);
+      } catch (err) {
+        console.error("Erro ao buscar instituições:", err?.response?.data || err);
+      } finally {
+        setLoadingInstitutions(false);
+      }
+    }
+
+    async function fetchUploads() {
+      try {
+        setLoadingUploads(true);
+
+        const res = await api.get("/api/upload/files");
+        const list = Array.isArray(res.data) ? res.data : [];
+
+        // Ordena por data e pega só os 5 mais recentes
+        const formatted = list
+          .slice()
+          .sort(
+            (a, b) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          )
+          .slice(0, 5)
+          .map((file) => ({
+            id: file.id,
+            name: file.name,
+            createdAt: file.createdAt,
+          }));
+
+        setUploads(formatted);
+      } catch (err) {
+        console.error("Erro ao buscar uploads:", err?.response?.data || err);
+      } finally {
+        setLoadingUploads(false);
+      }
+    }
+
+    fetchProjects();
+    fetchInstitutions();
+    fetchUploads();
+  }, []);
+
+  // =========================
+  // Filtro de projetos
+  // =========================
+
+  const filteredProjects = useMemo(() => {
+    return projects.filter((proj) => {
+      const matchesInstitution =
+        !selectedInstitutionId ||
+        proj.institutionId === selectedInstitutionId;
+
+      const search = projectSearch.trim().toLowerCase();
+      const matchesSearch =
+        !search ||
+        proj.title.toLowerCase().includes(search) ||
+        (proj.content || "").toLowerCase().includes(search) ||
+        (proj.institutionName || "").toLowerCase().includes(search);
+
+      return matchesInstitution && matchesSearch;
+    });
+  }, [projects, selectedInstitutionId, projectSearch]);
+
+  // =========================
+  // Helpers
+  // =========================
+
+  function formatRelativeTime(dateString) {
+    if (!dateString) return "";
+    const created = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - created.getTime();
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 1) return "hoje";
+    if (diffDays === 1) return "1 dia";
+    if (diffDays < 7) return `${diffDays} dias`;
+    const weeks = Math.floor(diffDays / 7);
+    if (weeks === 1) return "1 semana";
+    if (weeks < 4) return `${weeks} semanas`;
+    return created.toLocaleDateString("pt-BR");
+  }
+
+  const institutionsCount = institutions.length;
+  const projectsCount = projects.length;
+
   return (
     <div className={style.home}>
+      {/* HEADER */}
       <section className={style.header}>
-        <h2>Projetos em destaque</h2>
-        <p>Intituições atendidas 22 Projetos cadastrados 100</p>
+          <h2>Projetos em destaque</h2>
+          <p>
+            Instituições atendidas {institutionsCount} • Projetos cadastrados{" "}
+            {projectsCount}
+          </p>
       </section>
+
+      {/* LISTA DE PROJETOS */}
       <section className={style.content}>
-        {dadosDeTeste.map((item) => (
-          <InstitutionalCard key={item.id} item={item} />
-        ))}
+        {loadingProjects && <p>Carregando projetos...</p>}
+
+        {!loadingProjects && filteredProjects.length === 0 && (
+          <p>Nenhum projeto encontrado com os filtros atuais.</p>
+        )}
+
+        {!loadingProjects &&
+          filteredProjects.map((item) => (
+            <InstitutionalCard key={item.id} item={item} />
+          ))}
       </section>
+
+      {/* SIDEBAR */}
       <section className={style.sidebar}>
+        {/* FILTROS */}
         <div className={style.filter}>
           <h4>Filtros</h4>
           <form>
             <div>
-              <label>Intituições</label>
-              <select></select>
+              <label htmlFor="filter-institution">Instituições</label>
+              <select
+                id="filter-institution"
+                value={selectedInstitutionId}
+                onChange={(e) => setSelectedInstitutionId(e.target.value)}
+              >
+                <option value="">Todas as instituições</option>
+                {institutions.map((inst) => (
+                  <option key={inst.id} value={inst.id}>
+                    {inst.name}
+                  </option>
+                ))}
+              </select>
             </div>
+
             <div>
-              <label>Projetos</label>
-              <select></select>
+              <label htmlFor="filter-project-search">Projetos</label>
+              <input
+                id="filter-project-search"
+                type="text"
+                placeholder="Buscar por nome, descrição..."
+                value={projectSearch}
+                onChange={(e) => setProjectSearch(e.target.value)}
+              />
             </div>
           </form>
         </div>
+
+        {/* ÚLTIMOS UPLOADS */}
         <div className={style.lastUpload}>
           <h4>Últimos uploads</h4>
-          <ul>
-            <li>Relatório trimestral • 2 dias</li>
-            <li>Dados CNES atualizados • 4 dias</li>
-            <li>Manual do Administrador • 1 semana</li>
-          </ul>
+
+          {loadingUploads && <p>Carregando...</p>}
+
+          {!loadingUploads && uploads.length === 0 && (
+            <p>Nenhum arquivo enviado ainda.</p>
+          )}
+
+          {!loadingUploads && uploads.length > 0 && (
+            <>
+              <ul>
+                {uploads.map((file) => (
+                  <li key={file.id}>
+                    {file.name} • {formatRelativeTime(file.createdAt)}
+                  </li>
+                ))}
+              </ul>
+
+              <div className={style.repoLinkWrapper}>
+                <Link to="/repositorio">Ver todos os arquivos</Link>
+              </div>
+            </>
+          )}
         </div>
       </section>
     </div>
   );
 }
-
-
-  const dadosDeTeste = [
-    {
-      id: "a1",
-      title: "Postagem 1: Explorando React",
-      content:
-        "React torna a criação de UIs interativas muito simples. Crie views simples para cada estado da sua aplicação.",
-    },
-    {
-      id: "b2",
-      title: "Postagem 2: Componentes Reutilizáveis",
-      content:
-        "Construa componentes encapsulados que gerenciam seu próprio estado e, em seguida, componha-os para criar UIs complexas.",
-    },
-    {
-      id: "c3",
-      title: 'Postagem 3: A Prop "key"',
-      content:
-        'A "key" é essencial em listas. Ela ajuda o React a identificar quais itens mudaram, foram adicionados ou removidos.',
-    },
-    {
-      id: "d4",
-      title: "Postagem 4: O que são Hooks?",
-      content:
-        'Hooks são funções que permitem "enganchar" o estado e os recursos do ciclo de vida do React em componentes de função.',
-    },
-    {
-      id: "e5",
-      title: "Postagem 5: useState",
-      content:
-        "O Hook useState permite adicionar estado local a componentes de função. Ele retorna um par: o valor do estado atual e uma função para atualizá-lo.",
-    },
-    {
-      id: "f6",
-      title: "Postagem 6: useEffect",
-      content:
-        "O Hook useEffect permite executar efeitos colaterais em componentes de função, como buscar dados, definir assinaturas ou manipular o DOM.",
-    },
-    {
-      id: "g7",
-      title: "Postagem 7: Renderização Condicional",
-      content:
-        'Use operadores JavaScript como "if" ou o operador ternário para renderizar diferentes elementos com base no estado.',
-    },
-    {
-      id: "h8",
-      title: "Postagem 8: Roteamento com React Router",
-      content:
-        "Para aplicações de página única (SPAs), o React Router é a biblioteca padrão para gerenciar a navegação.",
-    },
-    {
-      id: "i9",
-      title: "Postagem 9: Gerenciamento de Estado",
-      content:
-        "Para estados globais, Context API é uma solução nativa, mas Redux e Zustand também são muito populares.",
-    },
-    {
-      id: "j10",
-      title: "Postagem 10: Testando Componentes",
-      content:
-        "Jest e React Testing Library (RTL) formam uma dupla poderosa para testar o comportamento dos seus componentes.",
-    },
-    {
-      id: "k11",
-      title: "Postagem 11: TypeScript em React",
-      content:
-        "Adicionar TypeScript ao seu projeto React pode ajudar a capturar bugs mais cedo e melhorar a manutenibilidade do código.",
-    },
-    {
-      id: "l12",
-      title: "Postagem 12: Styled Components",
-      content:
-        "Uma biblioteca popular de CSS-in-JS que permite escrever CSS real para estilizar seus componentes.",
-    },
-    {
-      id: "m13",
-      title: "Postagem 13: Otimização de Performance",
-      content:
-        'Use "memo", "useCallback" e "useMemo" para evitar renderizações desnecessárias e otimizar sua aplicação.',
-    },
-    {
-      id: "n14",
-      title: "Postagem 14: Next.js",
-      content:
-        "Um framework React que oferece renderização do lado do servidor (SSR) e geração de sites estáticos (SSG) prontos para produção.",
-    },
-    {
-      id: "o15",
-      title: "Postagem 15: Finalizando a Lista",
-      content:
-        "Este é o último item do nosso array de dados de teste. Foi fácil iterar sobre ele!",
-    },
-  ];
