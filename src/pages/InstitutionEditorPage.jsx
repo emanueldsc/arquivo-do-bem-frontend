@@ -29,17 +29,15 @@ export function InstitutionEditorPage() {
           throw new Error("Instituição não encontrada.");
         }
 
-        const { id: numericId, documentId, attributes = {} } = data;
+        const base = data.attributes || data;
+        const docId = data.documentId || data.id;
 
         setInstitution({
-          id: numericId,
-          documentId: documentId || numericId,
-          name: attributes.name || "",
-          address: attributes.address || "",
-          description: attributes.description || "",
+          documentId: docId,
+          name: base.name || "",
+          address: base.address || "",
+          description: base.description || "",
         });
-        console.log("Instituição carregada:", institution);
-        debugger
       } catch (err) {
         console.error(err);
         setError(
@@ -96,6 +94,7 @@ export function InstitutionEditorPage() {
           />
         )}
       </main>
+
     </div>
   );
 }

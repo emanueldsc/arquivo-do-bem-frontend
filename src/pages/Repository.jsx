@@ -210,7 +210,7 @@ export function Repository() {
         ))}
       </section>
 
-      <section className={style.table}>
+      {/* <section className={style.table}>
         <table>
           <thead>
             <tr>
@@ -265,7 +265,7 @@ export function Repository() {
             ))}
           </tbody>
         </table>
-      </section>
+      </section> */}
 
       {isProfessor && (
         <section className={style.footer}>

@@ -1,7 +1,6 @@
-// InstitutionsManager.jsx
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../services/api"; // axios configurado com baseURL do Strapi
+import api from "../services/api";
 import style from "./ProjectManager.module.css";
 
 export function InstitutionsManager() {
@@ -10,7 +9,6 @@ export function InstitutionsManager() {
 
   const navigate = useNavigate();
 
-  // Carrega instituições do Strapi
   async function fetchInstitutions() {
     try {
       setLoading(true);
@@ -55,7 +53,7 @@ export function InstitutionsManager() {
 
     try {
       await api.delete(`/api/institutions/${id}`);
-      fetchInstitutions(); // recarrega lista
+      fetchInstitutions();
     } catch (err) {
       console.error("Erro ao excluir instituição:", err);
       alert("Erro ao excluir. Verifique o console.");
