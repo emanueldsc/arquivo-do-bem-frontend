@@ -3,13 +3,11 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useEffect, useRef, useState } from "react";
 
-import api from "../services/api"; // axios já configurado com baseURL (Strapi)
+import api, { baseURL } from "../services/api";
 import style from "./InstitutionEditor.module.css";
 
-// URL do Strapi usada hoje (geralmente termina com /api)
-const RAW_STRAPI_URL = import.meta.env.VITE_API_URL || "http://localhost:1337";
+const RAW_STRAPI_URL = baseURL
 
-// URL pública (sem /api) para servir arquivos
 const STRAPI_PUBLIC_URL = RAW_STRAPI_URL.replace(/\/+$/, "").replace(
   /\/api$/,
   ""
@@ -40,6 +38,16 @@ export function InstitutionEditor({ institution = null, onSuccess, onCancel }) {
     editorProps: {
       attributes: {
         class: "tiptap-editor-content",
+      },
+      handleDrop(view, event) {
+        const url = event.dataTransfer?.getData("text/plain");
+        if (url) {
+          event.preventDefault();
+          // usa a instância editor vinculada a este view
+          editor?.chain().focus().setImage({ src: url }).run();
+          return true; // Tiptap entende que tratamos o drop
+        }
+        return false; // deixa o Tiptap seguir o fluxo normal
       },
     },
   });
@@ -74,26 +82,6 @@ export function InstitutionEditor({ institution = null, onSuccess, onCancel }) {
 
     return () => {
       editor.off("update", updateUsedImages);
-    };
-  }, [editor]);
-
-  // Suporte a drop direto de URL (drag do painel -> editor)
-  useEffect(() => {
-    if (!editor) return;
-
-    const dom = editor.view.dom;
-
-    const handleDrop = (event) => {
-      const url = event.dataTransfer?.getData("text/plain");
-      if (url) {
-        event.preventDefault();
-        editor.chain().focus().setImage({ src: url }).run();
-      }
-    };
-
-    dom.addEventListener("drop", handleDrop);
-    return () => {
-      dom.removeEventListener("drop", handleDrop);
     };
   }, [editor]);
 
@@ -406,9 +394,7 @@ export function InstitutionEditor({ institution = null, onSuccess, onCancel }) {
                       isUsed ? style.imageUsed : style.imageUnused
                     }`}
                     draggable
-                    onDragStart={(event) =>
-                      handleImageDragStart(event, image)
-                    }
+                    onDragStart={(event) => handleImageDragStart(event, image)}
                   >
                     <img src={image.url} alt={image.name || ""} />
 

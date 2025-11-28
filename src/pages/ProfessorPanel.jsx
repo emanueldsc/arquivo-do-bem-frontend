@@ -14,7 +14,7 @@ export function ProfessorPanel() {
   return (
     <>
       <div className={style.header}>
-        <h2 className={style.headerTitle}>Painel do Professor</h2>
+        <h2 className={style.headerTitle}>Painel do Administrador</h2>
         <div className={style.userArea}>
           <span className={style.userName}>{user?.username}</span>
           <span className={style.userEmail}>{user?.email}</span>

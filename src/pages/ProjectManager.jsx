@@ -25,8 +25,8 @@ export function ProjectManager() {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
-              <tr>
+            {rows.map((row, index) => (
+              <tr key={index}>
                 <td>{row.title}</td>
                 <td>{row.description}</td>
                 <td>{row.status}</td>

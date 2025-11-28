@@ -25,14 +25,14 @@ export function StudentPanel() {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
-              <tr>
+            {rows.map((row, index) => (
+              <tr key={index}>
                 <td>{row.title}</td>
                 <td>{row.description}</td>
                 <td>{row.status}</td>
                 <td>{row.data}</td>
                 <td className={style.btnContainer}>
-                  <button className="btn btn-edit">Editar</button> 
+                  <button className="btn btn-edit">Editar</button>
                   <button className="btn btn-remove">Excluir</button>
                 </td>
               </tr>

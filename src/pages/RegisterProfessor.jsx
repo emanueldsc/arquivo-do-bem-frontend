@@ -46,7 +46,7 @@ export default function RegisterProfessor() {
         password: form.password,
       });
 
-      setSuccessMsg("Professor cadastrado com sucesso!");
+      setSuccessMsg("Administrador cadastrado com sucesso!");
       setForm({
         username: "",
         email: "",
@@ -57,7 +57,7 @@ export default function RegisterProfessor() {
       setError(
         err?.response?.data?.error?.message ||
           err?.response?.data?.message ||
-          "Erro ao cadastrar professor."
+          "Erro ao cadastrar administrador."
       );
     } finally {
       setLoading(false);
@@ -67,7 +67,7 @@ export default function RegisterProfessor() {
   return (
     <div className={styles.page}>
       <div className={styles.card}>
-        <h1 className={styles.title}>Cadastrar Professor</h1>
+        <h1 className={styles.title}>Cadastrar Administrador</h1>
         <p className={styles.subtitle}>
           Esta página é acessível apenas via URL.
         </p>

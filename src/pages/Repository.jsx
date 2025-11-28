@@ -8,7 +8,11 @@ import {
 } from "../services/uploadService";
 import style from "./Repository.module.css";
 
+import { baseURL } from "../services/api";
+
 export function Repository() {
+
+
   const { user, isLogged } = useAuth();
 
   const [rows, setRows] = useState([]);
@@ -26,15 +30,6 @@ export function Repository() {
   const isProfessor =
     isLogged && user?.role?.name?.toLowerCase() === "professor";
 
-  /**
-   * Mapper v5:
-   * doc vem flat:
-   * {
-   *   id, title, description, createdAt, createdBy,
-   *   file: { id, url, mime, name, ... }  (quando populate)
-   *   semester: { id, name, ... }         (quando populate)
-   * }
-   */
   function mapDocToRow(doc) {
     const fileObj = doc.file?.data ?? doc.file ?? null;
     const semesterObj = doc.semester?.data ?? doc.semester ?? null;
@@ -45,7 +40,7 @@ export function Repository() {
     return {
       id: doc.id,
       name: doc.title ?? fileAttrs?.name ?? "Sem título",
-      description: doc.description ?? "", // ✅ aqui
+      description: doc.description ?? "",
       type: fileAttrs?.mime?.split("/")[1]?.toUpperCase() || "ARQ",
       author:
         doc.createdBy?.username ||
@@ -59,7 +54,6 @@ export function Repository() {
     };
   }
 
-  // 1) Carrega semestres ao montar (e seleciona o mais recente)
   useEffect(() => {
     async function loadSemesters() {
       try {
@@ -124,7 +118,6 @@ export function Repository() {
   }
 
   function handleDownload(row) {
-    const baseURL = import.meta.env.VITE_API_URL || "http://localhost:1337";
     const fullUrl = row.url?.startsWith("http")
       ? row.url
       : `${baseURL}${row.url}`;
@@ -176,8 +169,8 @@ export function Repository() {
           <p className={style.empty}>Nenhum arquivo para este semestre.</p>
         )}
 
-        {rows.map((row) => (
-          <article key={row.id} className={style.docCard}>
+        {rows.map((row, index) => (
+          <article key={index} className={style.docCard}>
             <header className={style.cardHeader}>
               <h4 className={style.cardTitle}>{row.name}</h4>
               {row.semesterName && (
@@ -240,8 +233,8 @@ export function Repository() {
               </tr>
             )}
 
-            {rows.map((row) => (
-              <tr key={row.id || row.name}>
+            {rows.map((row, index) => (
+              <tr key={index || row.name}>
                 <td>
                   <div className={style.docTitle}>{row.name}</div>
                 </td>
@@ -276,7 +269,7 @@ export function Repository() {
 
       {isProfessor && (
         <section className={style.footer}>
-          <h3>Enviar arquivo (professor)</h3>
+          <h3>Enviar arquivo (administrador)</h3>
 
           <form onSubmit={handleUploadSubmit} className={style.form}>
             <div className={style.field}>

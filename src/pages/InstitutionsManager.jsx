@@ -1,19 +1,65 @@
-import { useState } from "react";
-import { InstitutionModal } from "../components/InstitutionModal";
+// InstitutionsManager.jsx
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../services/api"; // axios configurado com baseURL do Strapi
 import style from "./ProjectManager.module.css";
 
 export function InstitutionsManager() {
-  const rows = fakeData;
+  const [institutions, setInstitutions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
-  function handleInstitutionCreated(newInstitution) {
-    console.log("Instituição criada:", newInstitution);
+  // Carrega instituições do Strapi
+  async function fetchInstitutions() {
+    try {
+      setLoading(true);
+      const res = await api.get("/api/institutions?sort=name:asc");
+      const list = res.data?.data || [];
 
-    // Aqui você poderá:
-    // - Atualizar lista de instituições
-    // - Fazer fetch automático
-    // - Mostrar toast
+      const formatted = list.map((item) => ({
+        id: item.documentId,
+        name: item.name || item.attributes?.name,
+        address:
+          item.address ||
+          item.attributes?.address ||
+          "(sem endereço cadastrado)",
+        createdAt:
+          item.createdAt ||
+          item.attributes?.createdAt ||
+          new Date().toISOString(),
+      }));
+
+      setInstitutions(formatted);
+    } catch (err) {
+      console.error("Erro ao buscar instituições:", err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchInstitutions();
+  }, []);
+
+  function handleCreateClick() {
+    navigate("/professor/instituicoes/nova");
+  }
+
+  function handleEditClick(id) {
+    navigate(`/professor/instituicoes/${id}/editar`);
+  }
+
+  async function handleDeleteClick(id) {
+    if (!confirm("Tem certeza que deseja excluir esta instituição?")) return;
+
+    try {
+      await api.delete(`/api/institutions/${id}`);
+      fetchInstitutions(); // recarrega lista
+    } catch (err) {
+      console.error("Erro ao excluir instituição:", err);
+      alert("Erro ao excluir. Verifique o console.");
+    }
   }
 
   return (
@@ -21,89 +67,79 @@ export function InstitutionsManager() {
       <section className={style.header}>
         <h1>Gestão de Instituições</h1>
 
-        <p>Crie, edite ou exlua projetos (area administrativa).</p>
+        <p>Crie, edite ou exclua instituições (área administrativa).</p>
 
-        <button
-          className="btn btn-primary"
-          onClick={() => setIsModalOpen(true)}
-        >
+        <button className="btn btn-primary" onClick={handleCreateClick}>
           + Criar instituição
         </button>
 
-        <h2>Lista de projetos</h2>
+        <h2>Lista de instituições</h2>
       </section>
 
+      {/* Tabela */}
       <section className="table">
         <table>
           <thead>
             <tr>
-              <th>Título</th>
-              <th>Instituição</th>
-              <th>Status</th>
-              <th>Data</th>
+              <th>Nome</th>
+              <th>Endereço</th>
+              <th>Data de criação</th>
               <th>Ações</th>
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
+            {!loading && institutions.length === 0 && (
               <tr>
-                <td>{row.title}</td>
-                <td>{row.description}</td>
-                <td>{row.status}</td>
-                <td>{row.data}</td>
+                <td
+                  colSpan="4"
+                  style={{ textAlign: "center", padding: "20px" }}
+                >
+                  Nenhuma instituição cadastrada.
+                </td>
+              </tr>
+            )}
+
+            {loading && (
+              <tr>
+                <td
+                  colSpan="4"
+                  style={{ textAlign: "center", padding: "20px" }}
+                >
+                  Carregando...
+                </td>
+              </tr>
+            )}
+
+            {institutions.map((inst) => (
+              <tr key={inst.id}>
+                <td>{inst.name}</td>
+                <td>{inst.address}</td>
+                <td>
+                  {inst.createdAt
+                    ? new Date(inst.createdAt).toLocaleDateString("pt-BR")
+                    : "-"}
+                </td>
+
                 <td className={style.btnContainer}>
-                  <button className="btn btn-edit">Editar</button>
-                  <button className="btn btn-remove">Excluir</button>
+                  <button
+                    className="btn btn-edit"
+                    onClick={() => handleEditClick(inst.id)}
+                  >
+                    Editar
+                  </button>
+
+                  <button
+                    className="btn btn-remove"
+                    onClick={() => handleDeleteClick(inst.id)}
+                  >
+                    Excluir
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </section>
-
-      <section>
-        <h2>Criar / Editar Projeto</h2>
-      </section>
-
-      <InstitutionModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        institution={null} // null = criar nova
-        onSaved={handleInstitutionCreated}
-      />
     </section>
   );
 }
-
-const fakeData = [
-  {
-    title: "Reunião com equipe",
-    description: "Planejar o sprint da próxima semana",
-    status: "pendente",
-    data: "2025-11-18",
-  },
-  {
-    title: "Entregar relatório mensal",
-    description: "Relatório de desempenho do projeto Alpha",
-    status: "em andamento",
-    data: "2025-11-20",
-  },
-  {
-    title: "Revisão de código",
-    description: "Revisar pull requests da branch develop",
-    status: "concluído",
-    data: "2025-11-15",
-  },
-  {
-    title: "Atualizar documentação",
-    description: "Documentar novas APIs REST",
-    status: "pendente",
-    data: "2025-11-22",
-  },
-  {
-    title: "Testes de integração",
-    description: "Executar suite completa de testes automatizados",
-    status: "em andamento",
-    data: "2025-11-16",
-  },
-];

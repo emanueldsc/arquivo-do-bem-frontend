@@ -246,13 +246,13 @@ export function AuthModal({ isOpen, onClose, onSuccess }) {
                 </p>
               )}
 
-              {/* <button
+              <button
                 type="submit"
                 className={`w3-button w3-block w3-margin-bottom ${style["modal-primary-color"]}`}
                 disabled={loading}
               >
                 Registrar
-              </button> */}
+              </button>
 
               <div
                 className={`w3-center w3-small w3-flex ${style["register-footer"]}`}

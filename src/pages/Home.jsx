@@ -32,7 +32,7 @@ export function Home() {
           <ul>
             <li>Relatório trimestral • 2 dias</li>
             <li>Dados CNES atualizados • 4 dias</li>
-            <li>Manual do professor • 1 semana</li>
+            <li>Manual do Administrador • 1 semana</li>
           </ul>
         </div>
       </section>

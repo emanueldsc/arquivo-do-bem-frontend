@@ -46,7 +46,7 @@ export function NavBar() {
                 isActive ? style.active : undefined
               }
             >
-              Painel do Professor
+              Painel do Administrador
             </NavLink>
           )}
 
