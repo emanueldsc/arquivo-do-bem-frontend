@@ -15,9 +15,9 @@ async function ping(...urls) {
   return null;
 }
 
-export const baseURL = "https://arquivo-do-bem-strapi-production.up.railway.app";
+// export const baseURL = "https://arquivo-do-bem-strapi-production.up.railway.app";
 // export const baseURL = "import.meta.env.VITE_API_URL";
-// export const baseURL =  "http://localhost:1337";
+export const baseURL =  "http://localhost:1337";
 
 const apiClient = axios.create({ baseURL });
 

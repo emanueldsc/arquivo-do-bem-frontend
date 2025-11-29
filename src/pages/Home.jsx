@@ -29,7 +29,7 @@ export function Home() {
         setLoadingProjects(true);
 
         const res = await api.get(
-          "/api/projects?sort=createdAt:desc&populate=institution"
+          "/api/projects?sort[0]=createdAt:desc&populate[institution][fields][0]=name&populate[institution][fields][1]=slug"
         );
 
         const list = res.data?.data || [];
@@ -38,19 +38,26 @@ export function Home() {
           const base = item.attributes || item;
           const docId = item.documentId || item.id;
 
-          const instData = base.institution?.data || null;
-          const instAttrs = instData?.attributes || {};
-          const institutionName = instAttrs.name || "(sem instituição)";
-          const institutionId = instData?.documentId || instData?.id || "";
+          const instData = base.institution || null;
+          let institutionName = "";
+          let institutionId = "";
+          let institutionSlug = "";
+          if (instData) {
+            institutionName = instData.name || "(sem instituição)";
+            institutionId = instData?.documentId || instData?.id || "";
+            institutionSlug = instData?.slug || "";
+          }
 
           return {
             id: docId,
+            slug: base.slug,
             title: base.name || "(sem nome)", // título do card
             content:
               base.description ||
               "Projeto sem descrição cadastrada no momento.",
             institutionId,
             institutionName,
+            institutionSlug,
             status: base.is_active === false ? "inativo" : "ativo",
           };
         });
@@ -67,7 +74,10 @@ export function Home() {
       try {
         setLoadingInstitutions(true);
 
-        const res = await api.get("/api/institutions?sort=name:asc&populate=institution");
+        const res = await api.get(
+          "/api/institutions?sort[0]=name:asc&fields[0]=name"
+        );
+
         const list = res.data?.data || [];
 
         const formatted = list.map((item) => {
@@ -82,7 +92,10 @@ export function Home() {
 
         setInstitutions(formatted);
       } catch (err) {
-        console.error("Erro ao buscar instituições:", err?.response?.data || err);
+        console.error(
+          "Erro ao buscar instituições:",
+          err?.response?.data || err
+        );
       } finally {
         setLoadingInstitutions(false);
       }
@@ -129,8 +142,7 @@ export function Home() {
   const filteredProjects = useMemo(() => {
     return projects.filter((proj) => {
       const matchesInstitution =
-        !selectedInstitutionId ||
-        proj.institutionId === selectedInstitutionId;
+        !selectedInstitutionId || proj.institutionId === selectedInstitutionId;
 
       const search = projectSearch.trim().toLowerCase();
       const matchesSearch =
@@ -170,11 +182,11 @@ export function Home() {
     <div className={style.home}>
       {/* HEADER */}
       <section className={style.header}>
-          <h2>Projetos em destaque</h2>
-          <p>
-            Instituições atendidas {institutionsCount} • Projetos cadastrados{" "}
-            {projectsCount}
-          </p>
+        <h2>Projetos em destaque</h2>
+        <p>
+          Instituições atendidas {institutionsCount} • Projetos cadastrados{" "}
+          {projectsCount}
+        </p>
       </section>
 
       {/* LISTA DE PROJETOS */}

@@ -1,0 +1,208 @@
+.institutionPage {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+  background-color: white;
+  margin-bottom: 32px;
+  border-radius: 8px;
+}
+
+/* =========================
+   HEADER
+   ========================= */
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #e2e2e2;
+  padding-bottom: 16px;
+}
+
+.header h1 {
+  font-size: 1.8rem;
+  margin: 0 0 8px;
+  color: #222;
+}
+
+.address {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.address strong {
+  color: #222;
+}
+
+/* link voltar */
+
+.backLink {
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: #2c5cff;
+  white-space: nowrap;
+  align-self: center;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   DESCRIÇÃO
+   ========================= */
+
+.description {
+  margin-bottom: 24px;
+}
+
+.description img {
+  width: 100%;
+}
+
+.richText {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+.richText p {
+  margin: 0 0 12px;
+}
+
+.richText ul,
+.richText ol {
+  margin: 0 0 12px 20px;
+  padding: 0;
+}
+
+.richText li {
+  margin-bottom: 4px;
+}
+
+.richText h2 {
+  font-size: 1.2rem;
+  margin: 16px 0 8px;
+}
+
+.richText h3 {
+  font-size: 1.05rem;
+  margin: 12px 0 6px;
+}
+
+/* =========================
+   BLOCO (projetos)
+   ========================= */
+
+.block {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.block h2 {
+  font-size: 1.1rem;
+  margin: 0 0 12px;
+  color: #222;
+}
+
+/* =========================
+   GALERIA DE PROJETOS
+   ========================= */
+
+.projectGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.projectCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 8px;
+  padding: 12px 14px;
+  border: 1px solid #e5e5e5;
+  background-color: #fafafa;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.projectCard h3 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  color: #222;
+}
+
+.projectDescription {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.projectCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  border-color: #d0d0ff;
+  background-color: #ffffff;
+}
+
+/* =========================
+   RESPONSIVIDADE
+   ========================= */
+
+@media (max-width: 768px) {
+  .institutionPage {
+    padding: 16px 12px 32px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .backLink {
+    align-self: flex-start;
+    margin-top: 8px;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+}
+
+.projectsSection {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.projectsSection h2 {
+  font-size: 1.1rem;
+  margin: 0 0 12px;
+  color: #222;
+}
+
+/* Container para os cards, parecido com a Home */
+.projectsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Se quiser em grade (galeria), pode trocar por algo assim:
+.projectsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+*/
