@@ -8,7 +8,8 @@ import { ProjectEditorPage } from "./pages/ProjectEditorPage";
 import { ProjectPage } from "./pages/ProjectPage";
 import RegisterProfessor from "./pages/RegisterProfessor";
 import { Repository } from "./pages/Repository";
-import { StudentPanel } from "./pages/StudentPanel";
+import { StudentDashboard } from "./pages/StudentDashboard";
+import { Institutions } from "./pages/Institutions";
 
 export const router = createHashRouter([
   {
@@ -20,6 +21,10 @@ export const router = createHashRouter([
         element: <Home />,
       },
       {
+        path: "instituicoes",
+        element: <Institutions />,
+      },
+      {
         path: "repositorio",
         element: <Repository />,
       },
@@ -29,7 +34,7 @@ export const router = createHashRouter([
       },
       {
         path: "aluno",
-        element: <StudentPanel />,
+        element: <StudentDashboard />,
       },
       {
         path: "professor/instituicoes/nova",

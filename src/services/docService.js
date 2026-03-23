@@ -9,16 +9,21 @@ export async function createDoc({
 }) {
   const jwt = localStorage.getItem("jwt");
 
+  const payloadData = {
+    title,
+    description,
+    is_public,
+    file: fileId,
+  };
+
+  if (semesterId) {
+    payloadData.semester = semesterId;
+  }
+
   const res = await api.post(
     "/api/docs",
     {
-      data: {
-        title,
-        description,
-        is_public,
-        file: fileId,
-        semester: semesterId,
-      },
+      data: payloadData,
     },
     {
       headers: { Authorization: `Bearer ${jwt}` },
@@ -45,4 +50,12 @@ export async function fetchDocs({ semesterId } = {}) {
 
   const res = await api.get("/api/docs", { params });
   return res.data.data;
+}
+
+export async function deleteDocInfo(id) {
+  const jwt = localStorage.getItem("jwt");
+  const res = await api.delete(`/api/docs/${id}`, {
+    headers: { Authorization: `Bearer ${jwt}` },
+  });
+  return res.data;
 }

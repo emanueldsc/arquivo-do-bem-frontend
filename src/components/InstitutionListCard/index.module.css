@@ -1,0 +1,94 @@
+.cardContainer {
+  display: flex;
+  flex-direction: row;
+  background-color: var(--surface, #fff);
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+}
+
+.cardContainer:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.imageWrapper {
+  width: 250px;
+  min-width: 250px;
+  height: 200px;
+  background-color: var(--surface-secondary, #f4f4f4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid var(--border, #eee);
+  overflow: hidden;
+}
+
+.logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholderLogo {
+  color: var(--text-muted, #888);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  flex: 1;
+}
+
+.title {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-strong, #222);
+  font-weight: bold;
+}
+
+.description {
+  margin: 0;
+  color: var(--text, #555);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.actionsWrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.btn {
+  background-color: var(--primary, #04AA6D);
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 16px;
+  transition: filter 0.2s;
+}
+
+.btn:hover {
+  color: white;
+  filter: brightness(90%);
+}
+
+/* Responsivo para celular */
+@media (max-width: 600px) {
+  .cardContainer {
+    flex-direction: column;
+  }
+
+  .imageWrapper {
+    width: 100%;
+    min-width: 100%;
+    height: 180px;
+    border-right: none;
+    border-bottom: 1px solid var(--border, #eee);
+  }
+}

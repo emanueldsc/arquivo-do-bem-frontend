@@ -1,0 +1,172 @@
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0 !important;
+  background-color: rgba(0, 0, 0, 0.45) !important;
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.15s ease-out;
+  overflow: hidden;
+
+  /* ================================
+     MODAL STRUCTURE
+  ================================= */
+  .modalContent {
+    max-width: 420px;
+    margin: 0 !important;
+    animation: slideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    border-radius: var(--radius-md);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .modalBody {
+    padding: 16px 24px;
+  }
+
+  /* ================================
+     BOTÕES E AÇÕES PRIMÁRIAS
+  ================================= */
+
+  .modal-primary-color {
+    background-color: var(--secondary);
+    color: white;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    padding: var(--space-2) var(--space-3);
+    cursor: pointer;
+    transition: 0.15s ease;
+
+    &:hover {
+      background-color: var(--secondary-soft);
+      color: var(--text);
+      box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  /* ================================
+     HEADER
+  ================================= */
+
+  header {
+    background-color: var(--secondary);
+    color: white;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    padding: var(--space-3) var(--space-4);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Botão de fechar (X) */
+  span.modal-close-button {
+    border-radius: 50%;
+    background-color: transparent;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.15s ease;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+      color: var(--text-muted);
+    }
+  }
+
+  /* ================================
+     ROLE SELECTION
+  ================================= */
+  .roleGroup {
+    display: flex;
+    gap: 16px;
+    justify-content: space-evenly;
+  }
+
+  .roleLabel {
+    cursor: pointer;
+  }
+
+  .roleInput {
+    margin-right: 8px;
+  }
+
+  .roleTitle {
+    margin: 0 0 8px 0;
+    font-weight: bold;
+  }
+
+  /* ================================
+     REGISTER FOOTER (texto/link)
+  ================================= */
+
+  .register-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+
+    a {
+      color: var(--primary);
+      font-weight: 600;
+      cursor: pointer;
+
+      &:hover {
+        filter: brightness(85%);
+      }
+    }
+  }
+
+  /* ================================
+     MODAL FOOTER
+  ================================= */
+
+  .modal-footer {
+    background: var(--surface);
+    padding: var(--space-3) var(--space-4);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+  }
+
+  .footerText {
+    margin: 0;
+    padding: 8px 0;
+  }
+}
+
+/* ================================
+   FECHAR MENSAGEM (fora do modal)
+================================ */
+
+.close-mesage {
+  float: right;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: 0.15s ease;
+
+  &:hover {
+    color: var(--text);
+  }
+}

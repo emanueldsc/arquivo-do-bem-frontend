@@ -38,3 +38,30 @@ export async function deleteRepositoryFile(fileId) {
     },
   });
 }
+
+export async function getRecentUploads(limit = 5) {
+  const res = await api.get("/api/upload/files");
+  const list = Array.isArray(res.data) ? res.data : [];
+
+  return list
+    .slice()
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    )
+    .slice(0, limit)
+    .map((file) => {
+      let url = file.url;
+      if (url && url.startsWith("/")) {
+        const fullBaseUrl = import.meta.env.VITE_API_URL || "http://localhost:1337";
+        url = fullBaseUrl + url;
+      }
+
+      return {
+        id: file.id,
+        name: file.name,
+        url: url,
+        createdAt: file.createdAt,
+      };
+    });
+}

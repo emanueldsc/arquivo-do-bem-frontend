@@ -1,0 +1,328 @@
+/* Copiado do ProfessorPanel */
+.container {
+  background-color: var(--surface);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+
+  button:active {
+    background-color: var(--secondary-soft) !important;
+  }
+}
+
+.tabBar {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.tab {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  background: var(--surface);
+  border: 1px solid transparent;
+  cursor: pointer;
+  color: var(--text);
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.tab:hover {
+  background: var(--secondary-soft);
+  border-color: var(--secondary);
+}
+
+.active {
+  background-color: var(--secondary);
+  border-color: var(--secondary);
+  color: white;
+}
+
+.active:hover {
+  background-color: var(--secondary) !important;
+  color: white !important;
+}
+
+.content {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-0);
+  border-image: linear-gradient(180deg, var(--secondary), rgba(85, 180, 191, 0)) 1;
+}
+
+.header {
+  width: 100%;
+  background: #ffffff;
+  padding: 18px 24px;
+  border-bottom: 1px solid #e6e6e6;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.headerTitle {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.userArea {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.userName {
+  font-weight: 600;
+  font-size: 16px;
+  color: #222;
+}
+
+.userEmail {
+  font-size: 14px;
+  color: #777;
+}
+
+/* Inner content styles from StudentDashboard */
+.lockedPanel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.5rem;
+}
+
+.lockedPanel h3 {
+  font-size: 1.5rem;
+  color: var(--primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.featuredProjectName {
+  font-size: 1.3rem;
+  font-weight: 700;
+  background: var(--primary-soft, #f0fdfa);
+  color: var(--primary-600, #0d9488);
+  padding: 1rem 2rem;
+  border-radius: var(--radius-md);
+  margin: 0.5rem 0;
+  border: 1px solid rgba(13, 148, 136, 0.2);
+}
+
+.tip {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.projectList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding: 1.5rem;
+}
+
+.publicationList {
+  padding: 1.5rem;
+}
+
+.projectCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.projectCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.projectInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+  flex: 1;
+  padding-right: 1.5rem;
+}
+
+.projectDesc {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+}
+
+.projectActions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.btnView {
+  font-weight: 600;
+  color: var(--text-muted) !important;
+  transition: all 0.2s;
+}
+
+.btnView:hover {
+  background: var(--surface-hover) !important;
+  color: var(--text) !important;
+}
+
+.projectInfo h4 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 12px;
+  display: inline-block;
+}
+
+.badgeOpen {
+  background: rgba(14, 165, 164, 0.1);
+  color: var(--primary);
+}
+
+.badgeFull {
+  background: rgba(229, 62, 62, 0.1);
+  color: var(--danger);
+}
+
+.btnBind {
+  background: var(--primary);
+  color: white;
+  border: none;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.btnBind:hover:not(:disabled) {
+  filter: brightness(0.9);
+  box-shadow: 0 4px 12px rgba(14, 165, 164, 0.3);
+}
+
+.btnBind:disabled {
+  background: var(--border-strong);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.dynamicTitle {
+  font-size: 1.8rem;
+  color: var(--primary);
+  margin: 0;
+  font-weight: 800;
+}
+
+.pubHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.btnNewPub {
+  background: var(--secondary) !important;
+}
+
+.pubGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.pubCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pubCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.pubCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+}
+
+.pubCardActions {
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+}
+
+.btnEditPub {
+  color: var(--text-muted) !important;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btnEditPub:hover {
+  background: var(--surface-hover) !important;
+  color: var(--primary) !important;
+}
+
+.pubCard h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.pubMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.pubAuthor {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.pubDate {
+  color: var(--text-muted);
+}
