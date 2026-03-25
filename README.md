@@ -1,16 +1,39 @@
-# React + Vite
+# Arquivo do Bem - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este é o projeto frontend da aplicação **Arquivo do Bem**, construído com React e Vite.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ⚠️ Pré-requisito Importante: Backend
 
-## React Compiler
+**Antes de rodar o frontend, é obrigatório que o backend já esteja configurado e rodando localmente!**
+A aplicação frontend depende da API (Strapi) para funcionar corretamente. 
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+👉 **Se você ainda não iniciou o backend:** Vá para a pasta `arquivo-do-bem-strapi` e siga as instruções no arquivo `README.md` correspondente. Lá estarão descritos os passos para subir o banco de dados (PostgreSQL via Docker), instalar as dependências e iniciar o servidor Strapi.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 Como executar o Frontend localmente
+
+Certifique-se de ter o [Node.js](https://nodejs.org/) instalado na sua máquina. Apenas inicie essa etapa após confirmar que o seu backend está acessível e rondando no painel.
+
+1. **Clone o repositório e acesse a pasta do frontend:**
+   ```bash
+   git clone <URL_DO_REPOSITORIO>
+   cd arquivo-do-bem-frontend
+   ```
+   *(Substitua `<URL_DO_REPOSITORIO>` pelo endereço do seu projeto)*
+
+2. **Instale as dependências:**
+   ```bash
+   npm install
+   ```
+   *Isso irá baixar todos os pacotes necessários.*
+
+3. **Inicie o servidor de desenvolvimento:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Acesse a aplicação no navegador:**
+   Após a execução do comando, o terminal exibirá o endereço local (geralmente `http://localhost:5173`). Abra o link no navegador para visualizar a plataforma e começar a interagir!

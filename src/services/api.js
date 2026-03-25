@@ -17,6 +17,14 @@ async function ping(...urls) {
 
 export const baseURL = import.meta.env.VITE_API_URL || "http://localhost:1337";
 
+console.log("--------------------------------------")
+console.log(import.meta);
+console.log("--------------------------------------")
+console.log(import.meta.env);
+console.log("--------------------------------------")
+console.log(import.meta.env.VITE_API_URL);
+console.log("--------------------------------------")
+
 const apiClient = axios.create({ baseURL });
 
 apiClient.interceptors.request.use((config) => {
