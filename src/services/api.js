@@ -23,6 +23,8 @@ console.log("--------------------------------------")
 console.log(import.meta.env);
 console.log("--------------------------------------")
 console.log(import.meta.env.VITE_API_URL);
+const meta = import.meta;
+window['meta'] = meta;
 console.log("--------------------------------------")
 
 const apiClient = axios.create({ baseURL });
