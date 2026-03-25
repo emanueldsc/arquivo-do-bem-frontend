@@ -37,3 +37,34 @@ Certifique-se de ter o [Node.js](https://nodejs.org/) instalado na sua máquina.
 
 4. **Acesse a aplicação no navegador:**
    Após a execução do comando, o terminal exibirá o endereço local (geralmente `http://localhost:5173`). Abra o link no navegador para visualizar a plataforma e começar a interagir!
+
+---
+
+## 🛠️ Simulando o Ambiente de Produção Localmente
+
+Caso você queira testar a aplicação localmente utilizando as configurações e otimizações de **produção** (lembrando que nesse caso o `import.meta.env.PROD` retorna `true` e `DEV` retorna `false`), não utilize o comando padrão de desenvolvimento.
+
+Você possui duas opções para simular a produção:
+
+### Opção 1: Comando Unificado (Prático)
+A forma mais ágil é utilizar o nosso script customizado que faz a compilação e sobe o servidor de testes de uma só vez:
+```bash
+npm run prod
+```
+
+### Opção 2: Passo a Passo Manual
+Se você quiser ter o controle para debugar o processo, execute separadamente:
+
+1. **Gere o Build:**
+   ```bash
+   npm run build
+   ```
+   *Isso compilará todos os seus arquivos otimizados na pasta `dist`.*
+
+2. **Inicie o Servidor de Preview:**
+   ```bash
+   npm run preview
+   ```
+   *O servidor local lerá a versão final a partir da porta `4173`.*
+
+Em ambos os casos, ao acessar `http://localhost:4173`, você estará interagindo com a exata versão final da plataforma consumindo a URL oficial do backend configurada no `api.js`!
