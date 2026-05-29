@@ -1,9 +1,15 @@
-// src/pages/ProjectPage.jsx
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import api from "../../services/api";
 
 import style from "./index.module.css";
+
+function stripHtml(html) {
+  if (!html) return "";
+  const tmp = document.createElement("DIV");
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || "";
+}
 
 export function ProjectPage() {
   const { slug } = useParams();
@@ -11,6 +17,9 @@ export function ProjectPage() {
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const [publications, setPublications] = useState([]);
+  const [loadingPubs, setLoadingPubs] = useState(true);
 
   useEffect(() => {
     async function fetchProject() {
@@ -72,6 +81,28 @@ export function ProjectPage() {
     fetchProject();
   }, [slug]);
 
+  useEffect(() => {
+    async function fetchProjectPublications() {
+      try {
+        setLoadingPubs(true);
+        const res = await api.get(
+          `/api/publications?filters[project][slug][$eq]=${encodeURIComponent(
+            slug
+          )}&filters[state][$eq]=PUBLISHED&populate=student_author&sort=createdAt:desc`
+        );
+        setPublications(res.data?.data || []);
+      } catch (err) {
+        console.error("Erro ao buscar publicações do projeto:", err);
+      } finally {
+        setLoadingPubs(false);
+      }
+    }
+
+    if (slug) {
+      fetchProjectPublications();
+    }
+  }, [slug]);
+
   if (loading) {
     return (
       <div className={style.projectPage}>
@@ -96,8 +127,9 @@ export function ProjectPage() {
   }
 
   return (
-    <>
-      <div className={style.projectPage}>
+    <div className={style.pageLayout}>
+      <div className={style.mainContent}>
+        <div className={style.projectPage}>
         <header className={style.header}>
           <div>
             <h1>{project.name}</h1>
@@ -140,26 +172,43 @@ export function ProjectPage() {
             </ul>
           </section>
         )}
-
-        {/* Publicações vinculadas */}
-        {project.publications?.length > 0 && (
-          <section className={style.block}>
-            <h2>Publicações</h2>
-            <ul>
-              {project.publications.map((pub) => (
-                <li key={pub.id}>
-                  {pub.title || "Sem título"}{" "}
-                  {pub.publishedAt && (
-                    <>
-                      • {new Date(pub.publishedAt).toLocaleDateString("pt-BR")}
-                    </>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
+        </div>
       </div>
-    </>
+
+      {/* Coluna Direita: Publicações Aprovadas */}
+      <aside className={style.publicationsSidebar}>
+        <h3 className={style.sidebarTitle}>Publicações dos Alunos</h3>
+        
+        {loadingPubs ? (
+          <p>Carregando publicações...</p>
+        ) : publications.length === 0 ? (
+          <div className={style.emptyState}>
+            <span>Não há publicações</span>
+          </div>
+        ) : (
+          <div className={style.publicationsList}>
+            {publications.map((pub) => {
+              const data = pub.attributes || pub;
+              const authorData = data.student_author?.data?.attributes || data.student_author || {};
+              
+              return (
+                <div key={pub.id} className={style.publicationCard}>
+                  <h4>{data.title}</h4>
+                  <small className={style.pubAuthor}>
+                    Por: {authorData.name || authorData.username || "Aluno"}
+                  </small>
+                  <div className={style.pubContent}>
+                    {stripHtml(data.content)}
+                  </div>
+                  <Link to={`/publicacao/${pub.documentId || pub.id}`} className={style.readMoreBtn}>
+                    Ler publicação
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </aside>
+    </div>
   );
 }

@@ -17,11 +17,11 @@ export function StudentManager() {
         <table>
           <thead>
             <tr>
-              <th>Título</th>
-              <th>Instituição</th>
-              <th>Status</th>
-              <th>Data</th>
-              <th>Ações</th>
+              <th className={style.table-header-col-title}>Título</th>
+              <th className={style.table-header-col-author}>Instituição</th>
+              <th className={style.table-header-col-status}>Status</th>
+              <th className={style.table-header-col-date}>Data</th>
+              <th className={style.table-header-col-actions}>Ações</th>
             </tr>
           </thead>
           <tbody>

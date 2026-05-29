@@ -1,7 +1,21 @@
-.projectPage {
-  max-width: 100%;
+/* =========================
+   LAYOUT (Colunas)
+   ========================= */
+.pageLayout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 32px;
+  align-items: start;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 24px 16px 40px;
+  padding: 24px 0;
+}
+
+.mainContent {
+  width: 100%;
+}
+
+.projectPage {
   background-color: white;
   padding: 8px 16px;
   margin-bottom: 32px;
@@ -155,10 +169,110 @@
 }
 
 /* =========================
+   SIDEBAR PUBLICAÇÕES
+   ========================= */
+
+.publicationsSidebar {
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-image: linear-gradient(to bottom, #e2e2e2, transparent) 1;
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.sidebarTitle {
+  margin-top: 0;
+  border-bottom: 1px solid #e2e2e2;
+  padding-bottom: 12px;
+  font-size: 1.25rem;
+  color: #222;
+}
+
+.emptyState {
+  border: 2px dashed var(--primary);
+  border-radius: 8px;
+  padding: 40px 16px;
+  text-align: center;
+  color: var(--primary);
+  background-color: #fafafa;
+  margin-top: 16px;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 120px;
+}
+
+.publicationsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.publicationCard {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 16px;
+}
+
+.publicationCard:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.publicationCard h4 {
+  margin: 0 0 4px 0;
+  color: #2c5cff;
+  font-size: 1.05rem;
+}
+
+.pubAuthor {
+  display: block;
+  color: #666;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+}
+
+.pubContent {
+  font-size: 0.9rem;
+  color: #444;
+  line-height: 1.5;
+  max-height: 150px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+.readMoreBtn {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background-color: transparent;
+  color: #2c5cff;
+  border: 1px solid #2c5cff;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.readMoreBtn:hover {
+  background-color: #2c5cff;
+  color: #fff;
+}
+
+/* =========================
    RESPONSIVIDADE
    ========================= */
 
 @media (max-width: 768px) {
+  .pageLayout {
+    grid-template-columns: 1fr;
+    padding: 16px 12px;
+  }
+
   .projectPage {
     padding: 16px 12px 32px;
   }

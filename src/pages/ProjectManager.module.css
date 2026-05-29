@@ -31,7 +31,7 @@
 }
 
 /* Botão "+ Criar ..." dentro do header */
-.header > button {
+.header>button {
   align-self: flex-start;
   margin-top: var(--space-2, 0.5rem);
   padding: var(--space-2, 0.45rem) var(--space-3, 0.9rem);
@@ -50,13 +50,13 @@
     color 0.15s ease;
 }
 
-.header > button:hover {
+.header>button:hover {
   background-color: var(--secondary-soft);
   color: var(--text);
   box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2);
 }
 
-.header > button:active {
+.header>button:active {
   transform: translateY(1px);
 }
 
@@ -146,7 +146,8 @@
 }
 
 .btnRemove {
-  color: #b91c1c; /* se você tiver uma var(--danger), pode trocar aqui */
+  color: #b91c1c;
+  /* se você tiver uma var(--danger), pode trocar aqui */
   font-weight: 600;
 }
 
@@ -157,8 +158,29 @@
     font-size: 0.8rem;
   }
 
-  .header > button {
+  .header>button {
     width: 100%;
     text-align: center;
   }
+}
+
+
+.table-header-col-title {
+  width: 40%;
+}
+
+.table-header-col-author {
+  width: 20%;
+}
+
+.table-header-col-status {
+  width: 15%;
+}
+
+.table-header-col-date {
+  width: 15%;
+}
+
+.table-header-col-actions {
+  width: 150px;
 }

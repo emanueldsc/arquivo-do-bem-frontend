@@ -3,13 +3,14 @@ import { Layout } from "./components/Layout";
 import { Home } from "./pages/Home";
 import { InstitutionEditorPage } from "./pages/InstitutionEditorPage";
 import { InstitutionPage } from "./pages/InstitutionPage";
+import { Institutions } from "./pages/Institutions";
 import { ProfessorPanel } from "./pages/ProfessorPanel";
 import { ProjectEditorPage } from "./pages/ProjectEditorPage";
 import { ProjectPage } from "./pages/ProjectPage";
+import { PublicationPage } from "./pages/PublicationPage";
 import RegisterProfessor from "./pages/RegisterProfessor";
 import { Repository } from "./pages/Repository";
 import { StudentDashboard } from "./pages/StudentDashboard";
-import { Institutions } from "./pages/Institutions";
 
 export const router = createHashRouter([
   {
@@ -59,6 +60,10 @@ export const router = createHashRouter([
       {
         path: "/institutions/:slug",
         element: <InstitutionPage />,
+      },
+      {
+        path: "/publicacao/:id",
+        element: <PublicationPage />,
       },
     ],
   },

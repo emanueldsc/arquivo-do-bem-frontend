@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { ProjectEditor } from "../../components/ProjectEditor";
 import api from "../../services/api";
-import style from "../InstitutionEditorPage/index.module.css"; // reaproveita layout
+import style from "../InstitutionEditorPage/index.module.css";
 
 export function ProjectEditorPage() {
   const { id } = useParams();
@@ -23,7 +23,7 @@ export function ProjectEditorPage() {
         setLoading(true);
         setError(null);
 
-        const res = await api.get(`/api/projects/${id}`);
+        const res = await api.get(`/api/projects/${id}?populate=*`);
         const data = res.data?.data;
 
         if (!data) {
@@ -32,15 +32,16 @@ export function ProjectEditorPage() {
 
         const base = data.attributes || data;
         const docId = data.documentId || data.id;
+        
+        const institutionData = base.institution?.data || base.institution || null;
 
         setProject({
           documentId: docId,
           name: base.name || "",
           description: base.description || "",
-          is_active:
-            typeof base.is_active === "boolean" ? base.is_active : true,
-          // se você populou institution na API, pode adaptar essa parte
-          institutionId: base.institution?.documentId || base.institution?.id || "",
+          is_active: typeof base.is_active === "boolean" ? base.is_active : true,
+          institutionId: institutionData?.documentId || institutionData?.id || "",
+          maxStudents: base.max_students ?? base.maxStudents ?? 10,
         });
       } catch (err) {
         console.error(err);

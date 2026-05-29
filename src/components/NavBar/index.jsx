@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AuthModal } from "../AuthModal";
 import { Logo } from "../Logo";
-import style from "./index.module.css";
 import { SeachFiled } from "../SearchField";
+import style from "./index.module.css";
 
 // ✅ novo
 import { useAuth } from "../../context/AuthContext";
 
 export function NavBar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   // ✅ novo
   const { isLogged, isProfessor, isStudent, logout, loadingAuth } = useAuth();
@@ -78,7 +79,13 @@ export function NavBar() {
               Login
             </button>
           ) : (
-            <button className={style.btnLogin} onClick={logout}>
+          <button 
+            className={style.btnLogin} 
+            onClick={() => {
+              logout();
+              navigate("/");
+            }}
+          >
               Logout
             </button>
           )}

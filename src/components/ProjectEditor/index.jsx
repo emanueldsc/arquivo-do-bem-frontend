@@ -4,9 +4,8 @@ import StarterKit from "@tiptap/starter-kit";
 import { useEffect, useRef, useState } from "react";
 
 import api, { baseURL } from "../../services/api";
-import style from "../InstitutionEditor/index.module.css"; // reaproveita o mesmo estilo do editor de instituição
+import style from "../InstitutionEditor/index.module.css";
 
-// helper pra slug
 function slugify(value) {
   return value
     .toString()
@@ -18,7 +17,6 @@ function slugify(value) {
     .replace(/^-+|-+$/g, "");
 }
 
-// mesma lógica de URL pública do Strapi
 const RAW_STRAPI_URL = baseURL;
 const STRAPI_PUBLIC_URL = RAW_STRAPI_URL.replace(/\/+$/, "").replace(
   /\/api$/,
@@ -26,18 +24,19 @@ const STRAPI_PUBLIC_URL = RAW_STRAPI_URL.replace(/\/+$/, "").replace(
 );
 
 export function ProjectEditor({ project = null, onSuccess, onCancel }) {
-  const isEditMode = Boolean(project?.documentId);
+  const baseProject = project?.attributes || project?.data || project || {};
+  const isEditMode = Boolean(baseProject?.documentId || baseProject?.id);
 
-  const [name, setName] = useState(project?.name || "");
+  const [name, setName] = useState(baseProject?.name || "");
   const [isActive, setIsActive] = useState(
-    typeof project?.is_active === "boolean" ? project.is_active : true
+    typeof baseProject?.is_active === "boolean" ? baseProject.is_active : true
   );
   const [institutionId, setInstitutionId] = useState(
-    project?.institutionId || ""
+    baseProject?.institution?.documentId || baseProject?.institution?.id || baseProject?.institutionId || ""
   );
   
   const [maxStudents, setMaxStudents] = useState(
-    project?.max_students !== undefined ? project.max_students : 10
+    baseProject?.max_students ?? baseProject?.maxStudents ?? 10
   );
 
   const [institutions, setInstitutions] = useState([]);
@@ -63,7 +62,6 @@ export function ProjectEditor({ project = null, onSuccess, onCancel }) {
     },
   });
 
-  // Carrega instituições para o select
   useEffect(() => {
     async function fetchInstitutions() {
       try {
@@ -71,7 +69,6 @@ export function ProjectEditor({ project = null, onSuccess, onCancel }) {
           "/api/institutions?sort=name:asc&pagination[pageSize]=100"
         );
         const list = res.data?.data || [];
-
         const formatted = list.map((item) => {
           const base = item.attributes || item;
           const docId = item.documentId || item.id;
@@ -91,17 +88,23 @@ export function ProjectEditor({ project = null, onSuccess, onCancel }) {
     fetchInstitutions();
   }, []);
 
-  // Atualiza estados quando project mudar (modo edição)
   useEffect(() => {
     if (!project || !editor) return;
 
-    setName(project.name || "");
+    const base = project?.attributes || project?.data || project || {};
+
+    setName(base.name || "");
     setIsActive(
-      typeof project.is_active === "boolean" ? project.is_active : true
+      typeof base.is_active === "boolean" ? base.is_active : true
     );
-    setInstitutionId(project.institutionId || "");
-    setMaxStudents(project.max_students !== undefined ? project.max_students : 10);
-    editor.commands.setContent(project.description || "");
+    setInstitutionId(
+      base.institution?.documentId || 
+      base.institution?.id || 
+      base.institutionId || 
+      ""
+    );
+    setMaxStudents(base.max_students ?? base.maxStudents ?? 10);
+    editor.commands.setContent(base.description || "");
   }, [project, editor]);
 
   function resetMessages() {
@@ -165,7 +168,6 @@ export function ProjectEditor({ project = null, onSuccess, onCancel }) {
           slug: slugify(name),
           description: descriptionHtml,
           is_active: isActive,
-          // relação com instituição - aqui uso o id selecionado
           institution: institutionId || null,
           max_students: Number(maxStudents) || 0,
         },
@@ -367,7 +369,7 @@ export function ProjectEditor({ project = null, onSuccess, onCancel }) {
           />
 
           {/* editor */}
-          <div className={style.editorWrapper}>
+          <div className={style.editorWrapper} onClick={() => editor?.commands.focus()}>
             <EditorContent editor={editor} />
           </div>
         </div>

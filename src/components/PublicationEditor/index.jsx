@@ -4,7 +4,7 @@ import StarterKit from "@tiptap/starter-kit";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import api, { baseURL } from "../../services/api";
-import style from "../InstitutionEditor/index.module.css"; 
+import style from "../InstitutionEditor/index.module.css";
 
 function slugify(value) {
   return value
@@ -29,6 +29,8 @@ export function PublicationEditor({ publication = null, projectId, onSuccess, on
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  const [showObservationsModal, setShowObservationsModal] = useState(false);
 
   const fileInputRef = useRef(null);
 
@@ -117,8 +119,17 @@ export function PublicationEditor({ publication = null, projectId, onSuccess, on
 
   return (
     <form className={style.form} onSubmit={handleSubmit}>
-      <header className={style.header}>
+      <header className={style.header} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h2>{isEditMode ? "Editar Publicação" : "Nova Publicação"}</h2>
+        {publication?.observations && (
+          <button 
+            type="button" 
+            style={{ backgroundColor: '#ef4444', color: '#fff', padding: '8px 16px', borderRadius: '6px', border: 'none', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 2px 4px rgba(239, 68, 68, 0.2)', fontSize: '0.9rem' }}
+            onClick={() => setShowObservationsModal(true)}
+          >
+            <span>⚠️</span> Ver Observações do Professor
+          </button>
+        )}
       </header>
       <div className={style.body}>
         <div className={style.field}>
@@ -148,7 +159,7 @@ export function PublicationEditor({ publication = null, projectId, onSuccess, on
             <button type="button" className={`${style.toolbarButton}`} onClick={() => fileInputRef.current?.click()} disabled={loading || !editor}>Imagem</button>
           </div>
           <input ref={fileInputRef} type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => handleImageUpload(e.target.files?.[0])} />
-          <div className={style.editorWrapper} style={{ minHeight: "250px" }}>
+          <div className={style.editorWrapper} style={{ minHeight: "250px" }} onClick={() => editor?.chain().focus().run()}>
             <EditorContent editor={editor} />
           </div>
         </div>
@@ -159,6 +170,23 @@ export function PublicationEditor({ publication = null, projectId, onSuccess, on
         {onCancel && <button type="button" className={`${style.button} ${style.secondaryButton}`} onClick={onCancel} disabled={loading}>Cancelar</button>}
         <button type="submit" className={`${style.button} ${style.primaryButton}`} disabled={loading || !title.trim()}>{loading ? "Salvando..." : "Salvar Publicação"}</button>
       </footer>
+
+      {showObservationsModal && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999 }}>
+          <div style={{ backgroundColor: 'white', padding: '24px', borderRadius: '8px', width: '500px', maxWidth: '90%', color: '#333', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+            <h3 style={{ marginTop: 0, color: '#ef4444', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span>⚠️</span> Observações do Professor
+            </h3>
+            <p style={{ fontSize: '0.9rem', color: '#666' }}>O professor solicitou as seguintes alterações nesta publicação:</p>
+            <div style={{ padding: '16px', backgroundColor: '#fef2f2', border: '1px solid #fca5a5', borderRadius: '6px', marginTop: '12px', marginBottom: '20px', whiteSpace: 'pre-wrap', maxHeight: '300px', overflowY: 'auto', fontSize: '0.95rem', lineHeight: '1.5' }}>
+              {publication.observations}
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <button type="button" className={`${style.button} ${style.secondaryButton}`} onClick={() => setShowObservationsModal(false)}>Fechar</button>
+            </div>
+          </div>
+        </div>
+      )}
     </form>
   );
 }

@@ -412,7 +412,10 @@ export function InstitutionEditor({ institution = null, onSuccess, onCancel }) {
             onChange={(e) => handleImageUpload(e.target.files?.[0])}
           />
 
-          <div className={style.editorWrapper}>
+          <div 
+            className={style.editorWrapper}
+            onClick={() => editor?.commands.focus()}
+          >
             <EditorContent editor={editor} />
           </div>
         </div>

@@ -16,7 +16,9 @@ function stripHtml(html) {
 export function StudentDashboard() {
   const { user, setUser } = useAuth();
   
-  const [activeTab, setActiveTab] = useState("projects");
+  const [activeTab, setActiveTab] = useState(() => {
+    return sessionStorage.getItem("studentActiveTab") || "projects";
+  });
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   
@@ -27,6 +29,11 @@ export function StudentDashboard() {
   const [isEditingPublication, setIsEditingPublication] = useState(false);
   const [publicationToEdit, setPublicationToEdit] = useState(null);
   const [loadingPubs, setLoadingPubs] = useState(false);
+  const [refreshPubs, setRefreshPubs] = useState(0);
+
+  useEffect(() => {
+    sessionStorage.setItem("studentActiveTab", activeTab);
+  }, [activeTab]);
 
   useEffect(() => {
     async function loadData() {
@@ -62,7 +69,8 @@ export function StudentDashboard() {
     async function fetchMe() {
       try {
         // Atualizamos o state local do user para garantir que a relation 'projects' está up to date
-        const res = await api.get("/api/users/me?populate=projects");
+        // Adicionado o populate da 'role' para que o menu do NavBar não perca a referência e suma!
+        const res = await api.get("/api/users/me?populate[0]=projects&populate[1]=role");
         setUser(res.data);
       } catch(err) {
         console.error(err);
@@ -89,6 +97,7 @@ export function StudentDashboard() {
             title: p.title || p.attributes?.title,
             content: p.content || p.attributes?.content,
             state: p.state || p.attributes?.state,
+            observations: p.observations || p.attributes?.observations || "",
             authorName: auth?.username || auth?.name || "Aluno",
             createdAt: p.createdAt || p.attributes?.createdAt,
           };
@@ -100,7 +109,7 @@ export function StudentDashboard() {
       }
     }
     fetchPublications();
-  }, [userProject]);
+  }, [userProject, refreshPubs]);
 
   async function handleConfirmBind() {
     if (!projectToBind || !user) return;
@@ -115,7 +124,7 @@ export function StudentDashboard() {
       });
       
       // Update local state by forcing a re-fetch
-      const res = await api.get("/api/users/me?populate=projects");
+      const res = await api.get("/api/users/me?populate[0]=projects&populate[1]=role");
       setUser(res.data);
       
     } catch(err) {
@@ -197,10 +206,14 @@ export function StudentDashboard() {
   function handlePubSuccess() {
     setIsEditingPublication(false);
     setPublicationToEdit(null);
-    window.location.reload(); 
+    setRefreshPubs(prev => prev + 1);
   }
 
   function renderPublicationsTab() {
+    if (loading) {
+      return <p className={style.tip} style={{ padding: "1.5rem" }}>Verificando vínculo institucional do aluno...</p>;
+    }
+
     if (!userProject) {
       return (
         <div className={style.lockedPanel}>

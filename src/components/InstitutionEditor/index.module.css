@@ -133,6 +133,7 @@
   max-height: 360px;
   overflow-y: auto;
   background-color: #ffffff;
+  cursor: text;
 }
 
 /* Conteúdo interno gerado pelo Tiptap */
