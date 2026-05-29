@@ -1,13 +1,20 @@
 import { Link } from "react-router-dom";
 import style from "./index.module.css";
 
+function stripHtml(html) {
+  if (!html) return "";
+  const tmp = document.createElement("DIV");
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || "";
+}
+
 export function InstitutionListCard({ item }) {
   // Garantir que a descrição seja texto e limitar tamanho
   let rawDesc = "Descrição indisponível.";
   
   if (item.description) {
     if (typeof item.description === 'string') {
-      rawDesc = item.description;
+      rawDesc = stripHtml(item.description);
     } else if (Array.isArray(item.description)) {
       // Se for RichText do Strapi v5, extrair os filhos de texto
       rawDesc = item.description.map(p => 

@@ -3,9 +3,9 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { InstitutionalCard } from "../../components/InstitutionalCard";
+import api, { baseURL } from "../../services/api";
 import { institutionService } from "../../services/institutionService";
 import { projectService } from "../../services/projectService";
-import { getRecentUploads } from "../../services/uploadService";
 
 import style from "./index.module.css";
 
@@ -53,8 +53,19 @@ export function Home() {
     async function fetchUploads() {
       try {
         setLoadingUploads(true);
-        const data = await getRecentUploads(3);
-        setUploads(data);
+        const res = await api.get("/api/docs?sort=createdAt:desc&pagination[limit]=3&populate=*");
+        const docsList = res.data?.data || [];
+        const mappedUploads = docsList.map((doc) => {
+          const attrs = doc.attributes || doc;
+          const fileObj = attrs.file?.data?.attributes || attrs.file || null;
+          return {
+            id: doc.documentId || doc.id,
+            name: attrs.title || fileObj?.name || "Sem título",
+            url: fileObj?.url?.startsWith("http") ? fileObj.url : (fileObj?.url ? `${baseURL}${fileObj.url}` : ""),
+            createdAt: attrs.createdAt
+          };
+        });
+        setUploads(mappedUploads);
       } catch (err) {
         console.error("Erro ao buscar uploads:", err?.response?.data || err);
       } finally {
