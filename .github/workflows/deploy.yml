@@ -34,8 +34,8 @@ jobs:
         run: npm ci
 
       - name: Build do Frontend
-        # Adicionado o --base para evitar tela branca/erros 404 no GitHub Pages
-        run: npm run build -- --base=/${{ github.event.repository.name }}/
+        # Removido o --base pois em domínios personalizados a aplicação roda na raiz
+        run: npm run build
         env:
           # Utiliza o Secret cadastrado no GitHub para maior segurança
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
