@@ -1,0 +1,55 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ master, main ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Build do Frontend
+        run: npm run build
+        env:
+          # Injeta a URL do seu Strapi na VPS para o build estático
+          VITE_API_URL: https://adb.api.ecossistema.cloud
+          # Caso use outra variável, replique-a aqui embaixo por segurança:
+          # API_URL: https://adb.api.ecossistema.cloud
+
+      - name: Configurar Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload do artefato
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # IMPORTANTE: Garanta que esta é a pasta gerada pelo build do seu framework. 
+          # Geralmente é './dist' (Vite/Vue/Angular modernos) ou './build' (React clássico)
+          path: './dist' 
+
+      - name: Deploy para GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
