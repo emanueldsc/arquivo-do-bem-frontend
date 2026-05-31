@@ -15,7 +15,7 @@ async function ping(...urls) {
   return null;
 }
 
-export const baseURL = import.meta.env.DEV ? "http://localhost:1337" : "https://arquivo-do-bem-strapi-production.up.railway.app";
+export const baseURL = import.meta.env.DEV ? "http://localhost:1337" : import.meta.env.VITE_API_URL;
 
 const apiClient = axios.create({ baseURL });
 

@@ -34,12 +34,11 @@ jobs:
         run: npm ci
 
       - name: Build do Frontend
-        run: npm run build
+        # Adicionado o --base para evitar tela branca/erros 404 no GitHub Pages
+        run: npm run build -- --base=/${{ github.event.repository.name }}/
         env:
-          # Injeta a URL do seu Strapi na VPS para o build estático
-          VITE_API_URL: https://adb.api.ecossistema.cloud
-          # Caso use outra variável, replique-a aqui embaixo por segurança:
-          # API_URL: https://adb.api.ecossistema.cloud
+          # Utiliza o Secret cadastrado no GitHub para maior segurança
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
       - name: Configurar Pages
         uses: actions/configure-pages@v4
