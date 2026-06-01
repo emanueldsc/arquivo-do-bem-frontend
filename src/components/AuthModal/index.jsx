@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { authController } from "../../controllers/authController";
 import {
-  ERROR_400,
-  ERROR_USER_ALREADY_EXISTS,
-  SUCCESS_REGISTER,
+    ERROR_400,
+    ERROR_USER_ALREADY_EXISTS,
+    SUCCESS_REGISTER,
 } from "../../utils/mesages";
 import style from "./index.module.css";
 
@@ -78,11 +78,10 @@ export function AuthModal({ isOpen, onClose, onSuccess }) {
     resetMessages();
 
     try {
-      if (form.role === "professor") {
-        await authController.handleRegisterProfessor(form);
-      } else {
-        await authController.handleRegisterStudent(form);
-      }
+      await authController.handleRegisterStudent({
+        ...form,
+        role: "student",
+      });
       
       setSuccess(SUCCESS_REGISTER);
       resetForm();
@@ -220,34 +219,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }) {
           ) : (
             /* REGISTRO */
             <form onSubmit={handleRegisterSubmit}>
-              <div className="w3-margin-bottom">
-                <p className={style.roleTitle}>Selecione o perfil de cadastro:</p>
-                <div className={style.roleGroup}>
-                  <label className={style.roleLabel}>
-                    <input
-                      className={`w3-radio ${style.roleInput}`}
-                      type="radio"
-                      name="role"
-                      value="student"
-                      checked={form.role === "student"}
-                      onChange={handleChange}
-                    />
-                    Aluno
-                  </label>
-                  
-                  <label className={style.roleLabel}>
-                    <input
-                      className={`w3-radio ${style.roleInput}`}
-                      type="radio"
-                      name="role"
-                      value="professor"
-                      checked={form.role === "professor"}
-                      onChange={handleChange}
-                    />
-                    Professor
-                  </label>
-                </div>
-              </div>
+              <p className={style.roleTitle}>Cadastro de aluno</p>
 
               <label className="w3-text-black">
                 Nome de usuário
