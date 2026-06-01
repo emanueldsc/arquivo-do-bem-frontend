@@ -16,7 +16,7 @@
 }
 
 .projectPage {
-  background-color: white;
+  background-color: var(--fbuni-brand-white);
   padding: 8px 16px;
   margin-bottom: 32px;
   border-radius: 8px;
@@ -32,30 +32,30 @@
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 24px;
-  border-bottom: 1px solid #e2e2e2;
+  border-bottom: 1px solid var(--border);
   padding-bottom: 16px;
 }
 
 .header h1 {
   font-size: 1.8rem;
   margin: 0 0 8px;
-  color: #222;
+  color: var(--text-strong);
 }
 
 .institution {
   margin: 0;
   font-size: 0.95rem;
-  color: #555;
+  color: var(--text-muted);
 }
 
 .institution strong {
-  color: #222;
+  color: var(--text-strong);
 }
 
 .status {
   margin: 4px 0 0;
   font-size: 0.9rem;
-  color: #555;
+  color: var(--text-muted);
 }
 
 .status span {
@@ -68,13 +68,13 @@
 /* status ativo / inativo */
 
 .active {
-  background-color: #e7f6ec;
-  color: #1b8f3a;
+  background-color: var(--success-bg);
+  color: var(--success-700);
 }
 
 .inactive {
-  background-color: #fbe7e7;
-  color: #b3261e;
+  background-color: var(--danger-bg);
+  color: var(--danger-700);
 }
 
 /* link voltar */
@@ -82,7 +82,7 @@
 .backLink {
   font-size: 0.9rem;
   text-decoration: none;
-  color: #2c5cff;
+  color: var(--secondary);
   white-space: nowrap;
   align-self: center;
 }
@@ -107,7 +107,7 @@
 .richText {
   font-size: 0.95rem;
   line-height: 1.6;
-  color: #333;
+  color: var(--text);
 }
 
 /* estilos básicos para conteúdo vindo do editor */
@@ -143,13 +143,13 @@
 .block {
   margin-bottom: 24px;
   padding-top: 8px;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid var(--border-light);
 }
 
 .block h2 {
   font-size: 1.1rem;
   margin: 0 0 8px;
-  color: #222;
+  color: var(--text-strong);
 }
 
 .block ul {
@@ -161,7 +161,7 @@
 .block li {
   font-size: 0.95rem;
   padding: 6px 0;
-  border-bottom: 1px dashed #eee;
+  border-bottom: 1px dashed var(--border-light);
 }
 
 .block li:last-child {
@@ -175,17 +175,17 @@
 .publicationsSidebar {
   background-color: transparent;
   border: 1px solid transparent;
-  border-image: linear-gradient(to bottom, #e2e2e2, transparent) 1;
+  border-image: linear-gradient(to bottom, var(--border), transparent) 1;
   border-radius: 8px;
   padding: 24px;
 }
 
 .sidebarTitle {
   margin-top: 0;
-  border-bottom: 1px solid #e2e2e2;
+  border-bottom: 1px solid var(--border);
   padding-bottom: 12px;
   font-size: 1.25rem;
-  color: #222;
+  color: var(--text-strong);
 }
 
 .emptyState {
@@ -194,7 +194,7 @@
   padding: 40px 16px;
   text-align: center;
   color: var(--primary);
-  background-color: #fafafa;
+  background-color: var(--surface-soft);
   margin-top: 16px;
   font-weight: 500;
   display: flex;
@@ -211,7 +211,7 @@
 }
 
 .publicationCard {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border-light);
   padding-bottom: 16px;
 }
 
@@ -222,20 +222,20 @@
 
 .publicationCard h4 {
   margin: 0 0 4px 0;
-  color: #2c5cff;
+  color: var(--secondary);
   font-size: 1.05rem;
 }
 
 .pubAuthor {
   display: block;
-  color: #666;
+  color: var(--text-muted);
   margin-bottom: 12px;
   font-size: 0.85rem;
 }
 
 .pubContent {
   font-size: 0.9rem;
-  color: #444;
+  color: var(--text);
   line-height: 1.5;
   max-height: 150px;
   overflow: hidden;
@@ -249,8 +249,8 @@
   margin-top: 12px;
   padding: 6px 16px;
   background-color: transparent;
-  color: #2c5cff;
-  border: 1px solid #2c5cff;
+  color: var(--secondary);
+  border: 1px solid var(--secondary);
   border-radius: 4px;
   text-decoration: none;
   font-size: 0.85rem;
@@ -259,8 +259,8 @@
 }
 
 .readMoreBtn:hover {
-  background-color: #2c5cff;
-  color: #fff;
+  background-color: var(--secondary);
+  color: var(--fbuni-brand-white);
 }
 
 /* =========================

@@ -53,7 +53,7 @@
   padding: 0.45rem 0.6rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
-  background-color: var(--surface-alt, #f9fafb);
+  background-color: var(--surface-alt);
   font-size: 0.9rem;
   color: var(--text);
   outline: none;
@@ -66,7 +66,7 @@
 .input:focus {
   border-color: var(--secondary);
   box-shadow: 0 0 0 1px var(--secondary-soft);
-  background-color: #ffffff;
+  background-color: var(--fbuni-brand-white);
 }
 
 /* Linha de ações (botões) fica à direita quando tiver espaço */
@@ -90,12 +90,12 @@
 
 .messageError {
   font-size: 0.85rem;
-  color: #b91c1c;
+  color: var(--danger-700);
 }
 
 .messageSuccess {
   font-size: 0.85rem;
-  color: #15803d;
+  color: var(--success-700);
 }
 
 /* Botões */
@@ -135,7 +135,7 @@
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  color: #ffffff;
+  color: var(--fbuni-brand-white);
   transition:
     background-color 0.15s ease,
     box-shadow 0.15s ease,

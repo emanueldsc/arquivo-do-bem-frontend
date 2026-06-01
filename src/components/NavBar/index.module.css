@@ -37,13 +37,13 @@
 
       /* estado ativo - nav atual */
       &.active {
-        color: white;
+        color: var(--fbuni-brand-white);
         background-color: var(--primary);
         border-color: var(--primary);
 
         &:hover {
           background-color: var(--primary-600);
-          color: white;
+          color: var(--fbuni-brand-white);
         }
       }
 
@@ -64,7 +64,7 @@
   background-color: var(--secondary);
   border: none;
   border-radius: var(--radius-md);
-  color: white;
+  color: var(--fbuni-brand-white);
   font-weight: 700;
   cursor: pointer;
   font-family: var(--font);

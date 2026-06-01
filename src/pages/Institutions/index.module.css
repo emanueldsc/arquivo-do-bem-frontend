@@ -4,8 +4,8 @@
 }
 
 .header {
-  background-color: var(--secondary, #2A3B4C);
-  color: white;
+  background-color: var(--secondary);
+  color: var(--fbuni-brand-white);
   padding: 3rem 1rem;
   margin-bottom: 1rem;
   text-align: center;
@@ -46,5 +46,5 @@
 
 .pageInfo {
   font-weight: bold;
-  color: var(--text-strong, #333);
+  color: var(--text-strong);
 }

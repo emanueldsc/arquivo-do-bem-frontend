@@ -43,12 +43,12 @@
 .active {
   background-color: var(--secondary);
   border-color: var(--secondary);
-  color: white;
+  color: var(--fbuni-brand-white);
 }
 
 .active:hover {
   background-color: var(--secondary) !important;
-  color: white !important;
+  color: var(--fbuni-brand-white) !important;
 }
 
 /* ===========================
@@ -64,16 +64,16 @@
   border-image: linear-gradient(
       180deg,
       var(--secondary),
-      rgba(85, 180, 191, 0)
+      var(--secondary-fade-0)
     )
     1;
 }
 
 .header {
   width: 100%;
-  background: #ffffff;
+  background: var(--fbuni-brand-white);
   padding: 18px 24px;
-  border-bottom: 1px solid #e6e6e6;
+  border-bottom: 1px solid var(--border-light);
   margin-bottom: 8px;
   border-radius: 8px;
 
@@ -81,13 +81,13 @@
   justify-content: space-between;
   align-items: center;
 
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px var(--overlay-xs);
 }
 
 .headerTitle {
   font-size: 22px;
   font-weight: 600;
-  color: #333;
+  color: var(--text);
   margin: 0;
 }
 
@@ -100,10 +100,10 @@
 .userName {
   font-weight: 600;
   font-size: 16px;
-  color: #222;
+  color: var(--text-strong);
 }
 
 .userEmail {
   font-size: 14px;
-  color: #777;
+  color: var(--text-muted);
 }

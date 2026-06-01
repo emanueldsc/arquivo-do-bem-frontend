@@ -8,11 +8,11 @@
 }
 
 .mainContent {
-  background-color: #ffffff;
+  background-color: var(--fbuni-brand-white);
   padding: 32px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e2e2e2;
+  box-shadow: 0 2px 8px var(--overlay-xs);
+  border: 1px solid var(--border);
 }
 
 /* =========================
@@ -24,35 +24,35 @@
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 32px;
-  border-bottom: 1px solid #e2e2e2;
+  border-bottom: 1px solid var(--border);
   padding-bottom: 24px;
 }
 
 .header h1 {
   font-size: 2rem;
   margin: 0 0 12px;
-  color: #222;
+  color: var(--text-strong);
   line-height: 1.3;
 }
 
 .meta {
   margin: 0 0 4px;
   font-size: 0.95rem;
-  color: #666;
+  color: var(--text-muted);
 }
 
 .meta strong {
-  color: #333;
+  color: var(--text);
 }
 
 .metaProject {
   margin: 0;
   font-size: 0.95rem;
-  color: #666;
+  color: var(--text-muted);
 }
 
 .metaProject strong {
-  color: #2c5cff;
+  color: var(--secondary);
 }
 
 .metaProject a {
@@ -66,7 +66,7 @@
 .backLink {
   font-size: 0.95rem;
   text-decoration: none;
-  color: #2c5cff;
+  color: var(--secondary);
   white-space: nowrap;
   font-weight: 600;
 }
@@ -76,7 +76,7 @@
 }
 
 .error {
-  color: #d32f2f;
+  color: var(--danger);
   font-size: 1.1rem;
   margin-bottom: 16px;
 }
@@ -91,7 +91,7 @@
 .richText {
   font-size: 1.05rem;
   line-height: 1.7;
-  color: #333;
+  color: var(--text);
 }
 
 .richText p {
@@ -118,13 +118,13 @@
 .richText h2 {
   font-size: 1.5rem;
   margin: 32px 0 16px;
-  color: #222;
+  color: var(--text-strong);
 }
 
 .richText h3 {
   font-size: 1.25rem;
   margin: 24px 0 12px;
-  color: #333;
+  color: var(--text);
 }
 
 /* =========================

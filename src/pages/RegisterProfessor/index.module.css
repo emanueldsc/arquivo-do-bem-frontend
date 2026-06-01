@@ -63,7 +63,7 @@
   border-radius: var(--radius-md);
   border: none;
   background-color: var(--primary);
-  color: white;
+  color: var(--fbuni-brand-white);
   font-weight: 600;
   cursor: pointer;
   transition: 0.15s ease;

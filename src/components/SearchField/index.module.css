@@ -31,7 +31,7 @@
 
   .submit {
     background-color: var(--primary);
-    color: white;
+    color: var(--fbuni-brand-white);
     border: 1px solid var(--primary);
     border-radius: var(--radius-md);
     cursor: pointer;
@@ -50,6 +50,6 @@
   .submit:active {
     background-color: var(--secondary);
     border-color: var(--secondary);
-    color: white;
+    color: var(--fbuni-brand-white);
   }
 }

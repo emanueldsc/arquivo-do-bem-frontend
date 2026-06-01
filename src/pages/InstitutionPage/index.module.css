@@ -2,7 +2,7 @@
   max-width: 100%;
   margin: 0 auto;
   padding: 24px 16px 40px;
-  background-color: white;
+  background-color: var(--fbuni-brand-white);
   margin-bottom: 32px;
   border-radius: 8px;
 }
@@ -17,24 +17,24 @@
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 24px;
-  border-bottom: 1px solid #e2e2e2;
+  border-bottom: 1px solid var(--border);
   padding-bottom: 16px;
 }
 
 .header h1 {
   font-size: 1.8rem;
   margin: 0 0 8px;
-  color: #222;
+  color: var(--text-strong);
 }
 
 .address {
   margin: 0;
   font-size: 0.95rem;
-  color: #555;
+  color: var(--text-muted);
 }
 
 .address strong {
-  color: #222;
+  color: var(--text-strong);
 }
 
 /* link voltar */
@@ -42,7 +42,7 @@
 .backLink {
   font-size: 0.9rem;
   text-decoration: none;
-  color: #2c5cff;
+  color: var(--secondary);
   white-space: nowrap;
   align-self: center;
 }
@@ -66,7 +66,7 @@
 .richText {
   font-size: 0.95rem;
   line-height: 1.6;
-  color: #333;
+  color: var(--text);
 }
 
 .richText p {
@@ -100,13 +100,13 @@
 .block {
   margin-top: 8px;
   padding-top: 8px;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid var(--border-light);
 }
 
 .block h2 {
   font-size: 1.1rem;
   margin: 0 0 12px;
-  color: #222;
+  color: var(--text-strong);
 }
 
 /* =========================
@@ -126,8 +126,8 @@
   justify-content: space-between;
   border-radius: 8px;
   padding: 12px 14px;
-  border: 1px solid #e5e5e5;
-  background-color: #fafafa;
+  border: 1px solid var(--border);
+  background-color: var(--surface-soft);
   text-decoration: none;
   color: inherit;
   transition:
@@ -140,20 +140,20 @@
 .projectCard h3 {
   margin: 0 0 6px;
   font-size: 1rem;
-  color: #222;
+  color: var(--text-strong);
 }
 
 .projectDescription {
   margin: 0;
   font-size: 0.85rem;
-  color: #555;
+  color: var(--text-muted);
 }
 
 .projectCard:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-  border-color: #d0d0ff;
-  background-color: #ffffff;
+  box-shadow: 0 4px 10px var(--overlay-xs);
+  border-color: var(--border-accent-soft);
+  background-color: var(--fbuni-brand-white);
 }
 
 /* =========================
@@ -183,13 +183,13 @@
 .projectsSection {
   margin-top: 24px;
   padding-top: 16px;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid var(--border-light);
 }
 
 .projectsSection h2 {
   font-size: 1.1rem;
   margin: 0 0 12px;
-  color: #222;
+  color: var(--text-strong);
 }
 
 /* Container para os cards, parecido com a Home */

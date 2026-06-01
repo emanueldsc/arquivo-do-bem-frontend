@@ -2,7 +2,7 @@
   min-height: calc(100vh - 60px);
   padding: 16px 24px;
   box-sizing: border-box;
-  background-color: #f1f5f9;
+  background-color: var(--bg);
 }
 
 .pageHeader {
@@ -14,8 +14,8 @@
 
 .backButton {
   border: none;
-  background-color: #e5e7eb;
-  color: #111827;
+  background-color: var(--border);
+  color: var(--text-strong);
   border-radius: 999px;
   padding: 6px 10px;
   font-size: 0.85rem;
@@ -26,7 +26,7 @@
 }
 
 .backButton:hover {
-  background-color: #d1d5db;
+  background-color: var(--border-strong);
 }
 
 .backButton:active {
@@ -37,13 +37,13 @@
   margin: 0;
   font-size: 1.3rem;
   font-weight: 600;
-  color: #0f172a;
+  color: var(--text-strong);
 }
 
 .subtitle {
   margin: 2px 0 0;
   font-size: 0.85rem;
-  color: #6b7280;
+  color: var(--text-muted);
 }
 
 .pageContent {
@@ -56,7 +56,7 @@
 }
 
 .error {
-  color: #b91c1c;
+  color: var(--danger-700);
   font-size: 0.9rem;
   margin-bottom: 8px;
 }

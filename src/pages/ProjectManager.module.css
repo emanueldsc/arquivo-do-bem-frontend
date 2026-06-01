@@ -41,7 +41,7 @@
   font-weight: 600;
   cursor: pointer;
   background-color: var(--secondary);
-  color: #ffffff;
+  color: var(--fbuni-brand-white);
   box-shadow: var(--shadow-lg);
   transition:
     background-color 0.15s ease,
@@ -53,7 +53,7 @@
 .header>button:hover {
   background-color: var(--secondary-soft);
   color: var(--text);
-  box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 6px var(--overlay-lg);
 }
 
 .header>button:active {
@@ -96,7 +96,7 @@
 
 /* zebrando linhas de corpo */
 :global(.table tbody tr:nth-child(even)) {
-  background-color: var(--surface-alt, #f9fafb);
+  background-color: var(--surface-alt);
 }
 
 :global(.table tbody tr:hover) {
@@ -146,7 +146,7 @@
 }
 
 .btnRemove {
-  color: #b91c1c;
+  color: var(--danger-700);
   /* se você tiver uma var(--danger), pode trocar aqui */
   font-weight: 600;
 }

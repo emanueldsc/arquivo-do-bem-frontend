@@ -117,7 +117,7 @@
   align-self: flex-start;
   padding: 0.7rem 1.4rem;
   background: var(--primary);
-  color: white;
+  color: var(--fbuni-brand-white);
   border: none;
   border-radius: var(--radius-sm);
   font-weight: 600;
@@ -127,7 +127,7 @@
 
 .btn:hover {
   background: var(--primary-600);
-  box-shadow: 0 2px 8px rgba(14, 165, 164, 0.35);
+  box-shadow: 0 2px 8px var(--primary-glow-strong);
 }
 
 .btn:active {
@@ -145,8 +145,8 @@
   color: var(--danger);
   font-size: 0.9rem;
   font-weight: 600;
-  background: rgba(255, 99, 71, 0.12);
-  border: 1px solid rgba(255, 99, 71, 0.35);
+  background: var(--danger-soft);
+  border: 1px solid var(--danger-glow);
   padding: 0.6rem 0.8rem;
   border-radius: var(--radius-sm);
 }
@@ -161,7 +161,7 @@
   align-self: flex-start;
   padding: 0.7rem 1.2rem;
   background: var(--danger);
-  color: white;
+  color: var(--fbuni-brand-white);
   border: none;
   border-radius: var(--radius-sm);
   font-weight: 600;
@@ -171,7 +171,7 @@
 
 .btnDanger:hover {
   filter: brightness(0.9);
-  box-shadow: 0 2px 8px rgba(255, 99, 71, 0.35);
+  box-shadow: 0 2px 8px var(--danger-glow);
 }
 
 .btnDanger:active {
