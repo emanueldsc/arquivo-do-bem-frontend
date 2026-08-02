@@ -326,3 +326,149 @@
 .pubDate {
   color: var(--text-muted);
 }
+
+.metricsPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+.metricsSummary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.metricsCard,
+.metricsSemesterCard,
+.metricsBlock {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.metricsCard {
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.metricsLabel {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.metricsCard strong {
+  font-size: 1.35rem;
+  color: var(--text-strong);
+}
+
+.metricsBlock {
+  padding: 1.25rem;
+}
+
+.metricsBlock h3 {
+  margin: 0 0 0.5rem;
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+.metricsFormRow {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 0.75rem;
+}
+
+.metricsParticipantList {
+  display: grid;
+  gap: 0.6rem;
+  padding: 0;
+  margin: 0.85rem 0 0;
+  list-style: none;
+}
+
+.metricsParticipantList li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+.metricsParticipantList em {
+  color: var(--text-muted);
+  font-style: normal;
+  font-size: 0.9rem;
+}
+
+.metricsSelect,
+.metricsInput {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 0.85rem;
+  min-height: 44px;
+  background: var(--fbuni-brand-white);
+  color: var(--text);
+}
+
+.metricsSelect {
+  min-width: min(100%, 320px);
+  flex: 1;
+}
+
+.metricsInput {
+  width: 160px;
+}
+
+.metricsButton {
+  background: var(--secondary);
+  color: var(--fbuni-brand-white);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.metricsButton:hover:not(:disabled) {
+  filter: brightness(0.95);
+}
+
+.metricsButton:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.metricsSemesterList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.metricsSemesterCard {
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.metricsSemesterCard strong {
+  display: block;
+  color: var(--text-strong);
+  margin-bottom: 0.25rem;
+}
+
+.metricsMessage {
+  margin: 0;
+  color: var(--primary);
+  font-weight: 600;
+}

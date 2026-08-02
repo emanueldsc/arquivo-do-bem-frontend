@@ -18,9 +18,6 @@ export function ProjectPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const [publications, setPublications] = useState([]);
-  const [loadingPubs, setLoadingPubs] = useState(true);
-
   useEffect(() => {
     async function fetchProject() {
       try {
@@ -30,7 +27,7 @@ export function ProjectPage() {
         const res = await api.get(
           `/api/projects?filters[slug][$eq]=${encodeURIComponent(
             slug
-          )}&populate[institution][fields][0]=name&populate[institution][fields][1]=address&populate[semesters][fields][0]=name&populate[semesters][fields][1]=year&populate[publications][fields][0]=title&populate[publications][fields][1]=publishedAt`
+          )}&populate[institution][fields][0]=name&populate[institution][fields][1]=address&populate[leader][fields][0]=username&populate[leader][fields][1]=email&populate[semesters][fields][0]=name&populate[semesters][fields][1]=year&populate[semesters][fields][2]=impacted_lives&populate[publications][fields][0]=title&populate[publications][fields][1]=content&populate[publications][fields][2]=state&populate[publications][fields][3]=publishedAt`
         );
 
         const data = res.data?.data?.[0];
@@ -42,15 +39,23 @@ export function ProjectPage() {
 
         const attrs = data || {};
         const instData = attrs.institution || null;
+        const leaderData = attrs.leader?.data?.attributes || attrs.leader || null;
 
         const semesters = (attrs.semesters || []).map((item) => ({
           id: item.id,
-          ...item.attributes,
+          ...(item.attributes || item),
+          impactedLives:
+            item.attributes?.impacted_lives ??
+            item.attributes?.impactedLives ??
+            item.impacted_lives ??
+            item.impactedLives ??
+            0,
         }));
 
         const publications = (attrs.publications || []).map((item) => ({
           id: item.id,
-          ...item.attributes,
+          documentId: item.documentId || item.id,
+          ...(item.attributes || item),
         }));
 
         setProject({
@@ -67,6 +72,14 @@ export function ProjectPage() {
                 address: instData.address,
               }
             : null,
+          leader: leaderData
+            ? {
+                id: leaderData.id,
+                documentId: leaderData.documentId,
+                username: leaderData.username,
+                email: leaderData.email,
+              }
+            : null,
           semesters,
           publications,
         });
@@ -79,28 +92,6 @@ export function ProjectPage() {
     }
 
     fetchProject();
-  }, [slug]);
-
-  useEffect(() => {
-    async function fetchProjectPublications() {
-      try {
-        setLoadingPubs(true);
-        const res = await api.get(
-          `/api/publications?filters[project][slug][$eq]=${encodeURIComponent(
-            slug
-          )}&filters[state][$eq]=PUBLISHED&populate=student_author&sort=createdAt:desc`
-        );
-        setPublications(res.data?.data || []);
-      } catch (err) {
-        console.error("Erro ao buscar publicações do projeto:", err);
-      } finally {
-        setLoadingPubs(false);
-      }
-    }
-
-    if (slug) {
-      fetchProjectPublications();
-    }
   }, [slug]);
 
   if (loading) {
@@ -158,15 +149,43 @@ export function ProjectPage() {
           )}
         </section>
 
+        {/* Liderança */}
+        <section className={style.block}>
+          <h2>Liderança</h2>
+          {project.leader ? (
+            <p>
+              Líder atual: <strong>{project.leader.username || project.leader.email || "Não informado"}</strong>
+            </p>
+          ) : (
+            <p>Este projeto ainda não possui líder definido.</p>
+          )}
+        </section>
+
         {/* Semestres vinculados */}
         {project.semesters?.length > 0 && (
           <section className={style.block}>
             <h2>Semestres</h2>
+            <p>
+              Total de vidas impactadas:{" "}
+              <strong>
+                {project.semesters.reduce(
+                  (sum, sem) =>
+                    sum + Number(sem.impacted_lives ?? sem.impactedLives ?? 0),
+                  0
+                )}
+              </strong>
+            </p>
             <ul>
               {project.semesters.map((sem) => (
                 <li key={sem.id}>
-                  {sem.name || sem.title || "Sem nome"}{" "}
+                  <strong>{sem.name || sem.title || "Sem nome"}</strong>{" "}
                   {sem.year && <>• {sem.year}</>}
+                  {typeof (sem.impacted_lives ?? sem.impactedLives) !== "undefined" && (
+                    <span>
+                      {' '}
+                      • Vidas impactadas: {Number(sem.impacted_lives ?? sem.impactedLives ?? 0)}
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>
@@ -179,24 +198,25 @@ export function ProjectPage() {
       <aside className={style.publicationsSidebar}>
         <h3 className={style.sidebarTitle}>Publicações dos Alunos</h3>
         
-        {loadingPubs ? (
-          <p>Carregando publicações...</p>
-        ) : publications.length === 0 ? (
+        {!project?.publications || project.publications.filter((publication) => publication.state === "PUBLISHED").length === 0 ? (
           <div className={style.emptyState}>
             <span>Não há publicações</span>
           </div>
         ) : (
           <div className={style.publicationsList}>
-            {publications.map((pub) => {
+            {project.publications
+              .filter((pub) => pub.state === "PUBLISHED")
+              .map((pub) => {
               const data = pub.attributes || pub;
-              const authorData = data.student_author?.data?.attributes || data.student_author || {};
-              
+
               return (
                 <div key={pub.id} className={style.publicationCard}>
                   <h4>{data.title}</h4>
-                  <small className={style.pubAuthor}>
-                    Por: {authorData.name || authorData.username || "Aluno"}
-                  </small>
+                  {data.publishedAt ? (
+                    <small className={style.pubAuthor}>
+                      Publicada em: {new Date(data.publishedAt).toLocaleDateString()}
+                    </small>
+                  ) : null}
                   <div className={style.pubContent}>
                     {stripHtml(data.content)}
                   </div>

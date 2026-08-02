@@ -9,3 +9,11 @@ export async function fetchSemesters() {
 
   return res.data.data;
 }
+
+export async function updateSemesterImpactLives(documentId, impactedLives) {
+  return api.put(`/api/semesters/${documentId}/impact-lives`, {
+    data: {
+      impacted_lives: Number(impactedLives) || 0,
+    },
+  });
+}
