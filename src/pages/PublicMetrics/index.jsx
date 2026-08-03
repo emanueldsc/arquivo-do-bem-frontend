@@ -6,7 +6,9 @@ import style from "./index.module.css";
 function normalizeRelationList(value) {
   if (!value) return [];
   if (Array.isArray(value)) return value;
-  return Array.isArray(value.data) ? value.data : [];
+  if (Array.isArray(value?.data)) return value.data;
+  if (value?.data && typeof value.data === 'object') return [value.data];
+  return [];
 }
 
 function normalizeUser(item) {
@@ -86,7 +88,7 @@ export function PublicMetrics() {
         setError("");
 
         const res = await api.get(
-          "/api/institutions?populate[projects][populate][0]=semesters&populate[projects][populate][1]=users&populate[projects][fields][0]=name&populate[projects][fields][1]=max_students&populate[projects][fields][2]=is_active&sort=name:asc"
+          "/api/institutions?populate[projects][populate][0]=users&populate[projects][populate][1]=semesters&populate[projects][fields][0]=name&populate[projects][fields][1]=max_students&populate[projects][fields][2]=is_active&sort=name:asc"
         );
 
         const list = (res.data?.data || []).map(normalizeInstitution);
@@ -155,8 +157,8 @@ export function PublicMetrics() {
     const globalStudentsBySemester = allSemesterKeys.map((key) => {
       const total = institutions.reduce((sum, institution) => {
         const value = institution.projects.reduce((projectSum, project) => {
-          const hasSemester = project.semesters.some((semester) => getSemesterKey(semester) === key);
-          return projectSum + (hasSemester ? project.users.length : 0);
+          const matchingSemester = project.semesters.find((semester) => getSemesterKey(semester) === key);
+          return projectSum + (matchingSemester ? project.users.length : 0);
         }, 0);
         return sum + value;
       }, 0);
@@ -172,30 +174,32 @@ export function PublicMetrics() {
     };
   }, [institutions]);
 
-  const pieOption = {
-    tooltip: { trigger: "item" },
-    legend: { top: "bottom" },
-    series: [
-      {
-        name: "Instituições",
-        type: "pie",
-        radius: [40, 110],
-        data: stats.institutionStats.map((item) => ({
-          value: item.projects,
-          name: item.name,
-        })),
-      },
-    ],
-  };
-
   const studentsPieOption = {
-    tooltip: { trigger: "item" },
-    legend: { top: "bottom" },
+    legend: {
+      top: "bottom",
+      left: "center",
+      padding: [0, 0, 24, 0],
+      textStyle: { fontSize: 12 },
+    },
+    toolbox: {
+      show: true,
+      feature: {
+        mark: { show: true },
+        dataView: { show: true, readOnly: false },
+        restore: { show: true },
+        saveAsImage: { show: true },
+      },
+    },
     series: [
       {
-        name: "Alunos",
+        name: "Nightingale Chart",
         type: "pie",
-        radius: [40, 110],
+        radius: [50, 250],
+        center: ["50%", "50%"],
+        roseType: "area",
+        itemStyle: {
+          borderRadius: 8,
+        },
         data: stats.institutionStats.map((item) => ({
           value: item.students,
           name: item.name,
@@ -204,7 +208,7 @@ export function PublicMetrics() {
     ],
   };
 
-  const impactedLineOption = {
+  const impactedAreaOption = {
     tooltip: { trigger: "axis" },
     legend: { top: 0 },
     xAxis: { type: "category", data: stats.allSemesterKeys },
@@ -214,14 +218,9 @@ export function PublicMetrics() {
         name: "Vidas impactadas (global)",
         type: "line",
         smooth: true,
+        areaStyle: {},
         data: stats.globalImpactedBySemester,
       },
-      ...stats.impactedByInstitution.map((item) => ({
-        name: item.name,
-        type: "line",
-        smooth: true,
-        data: item.data,
-      })),
     ],
   };
 
@@ -279,24 +278,19 @@ export function PublicMetrics() {
 
           <div className={style.grid}>
             <article className={style.card}>
-              <h2>Projetos por instituição</h2>
-              <ReactECharts option={pieOption} style={{ height: 320 }} />
-            </article>
-
-            <article className={style.card}>
-              <h2>Alunos por instituição</h2>
-              <ReactECharts option={studentsPieOption} style={{ height: 320 }} />
+              <h2>Vidas impactadas por semestre</h2>
+              <ReactECharts option={impactedAreaOption} style={{ height: 340 }} />
             </article>
           </div>
 
           <div className={style.grid}>
             <article className={style.card}>
-              <h2>Vidas impactadas por semestre</h2>
-              <ReactECharts option={impactedLineOption} style={{ height: 340 }} />
+              <h2>Alunos por instituição</h2>
+              <ReactECharts option={studentsPieOption} style={{ height: 320 }} />
             </article>
 
             <article className={style.card}>
-              <h2>Número de alunos por semestre</h2>
+              <h2>Total de alunos por semestre</h2>
               <ReactECharts option={studentsLineOption} style={{ height: 340 }} />
             </article>
           </div>
