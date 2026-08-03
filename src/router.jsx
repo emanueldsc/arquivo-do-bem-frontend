@@ -8,6 +8,7 @@ import { ProfessorPanel } from "./pages/ProfessorPanel";
 import { ProjectEditorPage } from "./pages/ProjectEditorPage";
 import { ProjectPage } from "./pages/ProjectPage";
 import { PublicationPage } from "./pages/PublicationPage";
+import { PublicMetrics } from "./pages/PublicMetrics";
 import RegisterProfessor from "./pages/RegisterProfessor";
 import { Repository } from "./pages/Repository";
 import { StudentDashboard } from "./pages/StudentDashboard";
@@ -28,6 +29,10 @@ export const router = createHashRouter([
       {
         path: "repositorio",
         element: <Repository />,
+      },
+      {
+        path: "metricas-publicas",
+        element: <PublicMetrics />,
       },
       {
         path: "professor",

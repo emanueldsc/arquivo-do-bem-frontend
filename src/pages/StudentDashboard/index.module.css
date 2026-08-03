@@ -13,7 +13,27 @@
 
 .tabBar {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.tabGroup {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.currentSemesterBadge {
+  margin-left: auto;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  white-space: nowrap;
 }
 
 .tab {
@@ -392,10 +412,10 @@
   list-style: none;
 }
 
-.metricsParticipantList li {
+.metricsParticipantItem {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
   padding: 0.7rem 0.85rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -403,7 +423,11 @@
   color: var(--text);
 }
 
-.metricsParticipantList em {
+.metricsParticipantItem span {
+  flex: 1;
+}
+
+.metricsParticipantItem em {
   color: var(--text-muted);
   font-style: normal;
   font-size: 0.9rem;

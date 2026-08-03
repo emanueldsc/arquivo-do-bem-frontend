@@ -79,6 +79,9 @@ export function StudentDashboard() {
   const [currentSemester, setCurrentSemester] = useState(null);
   const [selectedLeaderId, setSelectedLeaderId] = useState("");
   const [leaderSaving, setLeaderSaving] = useState(false);
+  const [currentSemesterVoteKey, setCurrentSemesterVoteKey] = useState(() => {
+    return sessionStorage.getItem("studentLeaderVoteSemester") || "";
+  });
   const [semesterDrafts, setSemesterDrafts] = useState({});
   const [savingSemesterId, setSavingSemesterId] = useState("");
   const [metricsMessage, setMetricsMessage] = useState("");
@@ -245,6 +248,8 @@ export function StudentDashboard() {
   const currentUserId = getDocumentId(user);
   const projectLeaderId = getDocumentId(projectDetails?.leader);
   const isProjectLeader = Boolean(projectLeaderId && projectLeaderId === currentUserId);
+  const currentSemesterVoteValue = currentSemester?.documentId || currentSemester?.id || "default";
+  const hasVotedInCurrentSemester = Boolean(currentSemesterVoteKey) && currentSemesterVoteKey === currentSemesterVoteValue;
   const projectParticipants = (projectDetails?.users || [])
     .filter((participant) => Boolean(getDocumentId(participant)))
     .filter((participant, index, list) => {
@@ -254,16 +259,24 @@ export function StudentDashboard() {
   const leaderOptions = projectParticipants.filter(
     (participant) => getDocumentId(participant) !== currentUserId
   );
-  const totalImpactedLives = (projectDetails?.semesters || []).reduce(
-    (sum, semester) => sum + Number(semester.impactedLives || 0),
-    0
-  );
+  const currentSemesterImpactedLives = (projectDetails?.semesters || []).find(
+    (semester) => getDocumentId(semester) === getDocumentId(currentSemester)
+  )?.impactedLives ?? 0;
 
   async function handleConfirmBind() {
     if (!projectToBind || !user) return;
 
+    const projectChangeAllowed = Boolean(user?.can_change_project);
+    const projectChangeBlocked = userProjects.length > 0 && !projectChangeAllowed;
+
     if (!canAssociateToProject(userProjects, currentSemester)) {
       alert("Você já está associado a um projeto neste semestre. Cada aluno pode participar de apenas um projeto por semestre.");
+      setProjectToBind(null);
+      return;
+    }
+
+    if (projectChangeBlocked) {
+      alert("A troca de projeto só pode ser feita quando o professor liberar a mudança para você.");
       setProjectToBind(null);
       return;
     }
@@ -295,10 +308,12 @@ export function StudentDashboard() {
     if (loading) return <p>Carregando projetos de extensão da plataforma...</p>;
 
     const semesterAssociationBlocked = !canAssociateToProject(userProjects, currentSemester);
+    const projectChangeAllowed = Boolean(user?.can_change_project);
+    const projectChangeBlocked = userProjects.length > 0 && !projectChangeAllowed;
     const availableProjects = projects.filter((proj) => {
       const alreadyLinked = userProjects.some((project) => getDocumentId(project) === proj.id);
       const isFull = proj.maxStudents > 0 ? proj.currentCount >= proj.maxStudents : false;
-      return !alreadyLinked && !isFull && !semesterAssociationBlocked;
+      return !alreadyLinked && !isFull && !semesterAssociationBlocked && !projectChangeBlocked;
     });
 
     return (
@@ -348,6 +363,12 @@ export function StudentDashboard() {
         {semesterAssociationBlocked && (
           <p className={style.tip} style={{ marginBottom: "1rem" }}>
             Você já está associado a um projeto neste semestre. Cada aluno pode participar de apenas um projeto por semestre.
+          </p>
+        )}
+
+        {projectChangeBlocked && (
+          <p className={style.tip} style={{ marginBottom: "1rem" }}>
+            A troca de projeto só pode ser feita quando o professor liberar a mudança para você.
           </p>
         )}
 
@@ -503,8 +524,13 @@ export function StudentDashboard() {
     );
   }
 
-  async function handleSetLeader() {
-    if (!projectDetails?.documentId || !selectedLeaderId) return;
+  async function handleSetLeader(leaderUserId) {
+    if (!projectDetails?.documentId || !leaderUserId) return;
+
+    if (hasVotedInCurrentSemester) {
+      setMetricsMessage("Você já registrou um voto para este semestre.");
+      return;
+    }
 
     setLeaderSaving(true);
     setMetricsMessage("");
@@ -512,7 +538,7 @@ export function StudentDashboard() {
     try {
       await projectService.setProjectLeader(
         projectDetails.documentId,
-        selectedLeaderId
+        leaderUserId
       );
 
       const updated = await projectService.getProjectMetrics(
@@ -520,8 +546,10 @@ export function StudentDashboard() {
       );
 
       setProjectDetails(updated);
-      setSelectedLeaderId(updated?.leader?.documentId || updated?.leader?.id || "");
-      setMetricsMessage("Líder do projeto atualizado com sucesso.");
+      setSelectedLeaderId(leaderUserId);
+      setCurrentSemesterVoteKey(currentSemesterVoteValue);
+      sessionStorage.setItem("studentLeaderVoteSemester", currentSemesterVoteValue);
+      setMetricsMessage("Voto registrado com sucesso.");
     } catch (err) {
       console.error("Erro ao atualizar líder:", err);
       setMetricsMessage(
@@ -536,6 +564,11 @@ export function StudentDashboard() {
 
   async function handleSaveSemesterImpact(semesterDocumentId) {
     if (!semesterDocumentId) return;
+
+    if (!currentSemester || getDocumentId(currentSemester) !== semesterDocumentId) {
+      setMetricsMessage("Apenas o semestre atual pode ser editado.");
+      return;
+    }
 
     const impactedLives = semesterDrafts[semesterDocumentId] ?? 0;
     setSavingSemesterId(semesterDocumentId);
@@ -601,59 +634,44 @@ export function StudentDashboard() {
             <strong>{projectDetails.semesters?.length || 0}</strong>
           </div>
           <div className={style.metricsCard}>
-            <span className={style.metricsLabel}>Vidas impactadas no projeto</span>
-            <strong>{totalImpactedLives}</strong>
+            <span className={style.metricsLabel}>Vidas impactadas no semestre atual</span>
+            <strong>{currentSemesterImpactedLives}</strong>
           </div>
         </div>
 
         <section className={style.metricsBlock}>
           <h3>Nomear líder do projeto</h3>
           <p className={style.tip}>
-            A lista abaixo reúne os participantes vinculados ao projeto neste semestre para que o grupo possa escolher um líder.
+            Cada participante pode registrar um único voto para o líder do projeto neste semestre.
           </p>
 
           {projectParticipants.length === 0 ? (
             <p className={style.tip}>Ainda não há participantes vinculados a este projeto para o semestre atual.</p>
           ) : (
-            <>
-              <ul className={style.metricsParticipantList}>
-                {projectParticipants.map((participant) => (
-                  <li key={getDocumentId(participant)}>
+            <ul className={style.metricsParticipantList}>
+              {projectParticipants.map((participant) => {
+                const participantId = getDocumentId(participant);
+                const isCurrentUser = participantId === currentUserId;
+                const isCurrentLeader = participantId === projectLeaderId;
+                const isDisabled = leaderSaving || hasVotedInCurrentSemester || isCurrentUser || isCurrentLeader;
+
+                return (
+                  <li key={participantId} className={style.metricsParticipantItem}>
                     <span>{participant.username || participant.email || "Participante"}</span>
-                    {getDocumentId(participant) === currentUserId ? <em>(você)</em> : null}
+                    {isCurrentUser ? <em>(você)</em> : null}
+                    {isCurrentLeader ? <em>(líder atual)</em> : null}
+                    <button
+                      type="button"
+                      className={style.metricsButton}
+                      onClick={() => handleSetLeader(participantId)}
+                      disabled={isDisabled}
+                    >
+                      {isCurrentLeader ? "Líder atual" : isCurrentUser ? "Você" : hasVotedInCurrentSemester ? "Votado" : "Votar"}
+                    </button>
                   </li>
-                ))}
-              </ul>
-
-              {leaderOptions.length === 0 ? (
-                <p className={style.tip}>Não há outros participantes disponíveis para assumir a liderança.</p>
-              ) : (
-                <div className={style.metricsFormRow}>
-                  <select
-                    className={style.metricsSelect}
-                    value={selectedLeaderId}
-                    onChange={(e) => setSelectedLeaderId(e.target.value)}
-                    disabled={leaderSaving}
-                  >
-                    <option value="">Selecione um participante</option>
-                    {leaderOptions.map((participant) => (
-                      <option key={participant.documentId || participant.id} value={participant.documentId || participant.id}>
-                        {participant.username || participant.email}
-                      </option>
-                    ))}
-                  </select>
-
-                  <button
-                    type="button"
-                    className={style.metricsButton}
-                    onClick={handleSetLeader}
-                    disabled={leaderSaving || !selectedLeaderId}
-                  >
-                    {leaderSaving ? "Salvando..." : "Definir líder"}
-                  </button>
-                </div>
-              )}
-            </>
+                );
+              })}
+            </ul>
           )}
         </section>
 
@@ -672,12 +690,16 @@ export function StudentDashboard() {
               {(projectDetails.semesters || []).map((semester) => {
                 const semesterKey = getDocumentId(semester);
                 const draftValue = semesterDrafts[semesterKey] ?? String(semester.impactedLives ?? 0);
+                const isCurrentSemester = Boolean(currentSemester && getDocumentId(currentSemester) === semesterKey);
 
                 return (
                   <div key={semesterKey} className={style.metricsSemesterCard}>
                     <div>
                       <strong>{semester.name}</strong>
                       {semester.year ? <p className={style.tip}>Ano: {semester.year}</p> : null}
+                      <p className={style.tip}>
+                        {isCurrentSemester ? "Semestre atual" : "Semestre anterior"}
+                      </p>
                     </div>
 
                     <div className={style.metricsFormRow}>
@@ -692,15 +714,15 @@ export function StudentDashboard() {
                             [semesterKey]: e.target.value,
                           }))
                         }
-                        disabled={savingSemesterId === semesterKey}
+                        disabled={savingSemesterId === semesterKey || !isCurrentSemester}
                       />
                       <button
                         type="button"
                         className={style.metricsButton}
                         onClick={() => handleSaveSemesterImpact(semesterKey)}
-                        disabled={savingSemesterId === semesterKey}
+                        disabled={savingSemesterId === semesterKey || !isCurrentSemester}
                       >
-                        {savingSemesterId === semesterKey ? "Salvando..." : "Atualizar"}
+                        {savingSemesterId === semesterKey ? "Salvando..." : isCurrentSemester ? "Atualizar" : "Bloqueado"}
                       </button>
                     </div>
                   </div>
@@ -727,24 +749,30 @@ export function StudentDashboard() {
 
       <section className={style.container}>
         <div className={`w3-bar w3-white ${style.tabBar}`}>
-          <button 
-            className={`w3-bar-item w3-button w3-hover-white ${style.tab} ${activeTab === "projects" ? style.active : ""}`}
-            onClick={() => setActiveTab("projects")}
-          >
-            Projetos e Inscrições
-          </button>
-          <button 
-            className={`w3-bar-item w3-button w3-hover-white ${style.tab} ${activeTab === "publications" ? style.active : ""}`}
-            onClick={() => setActiveTab("publications")}
-          >
-            Publicações
-          </button>
-          <button 
-            className={`w3-bar-item w3-button w3-hover-white ${style.tab} ${activeTab === "metrics" ? style.active : ""}`}
-            onClick={() => setActiveTab("metrics")}
-          >
-            Métricas do Projeto
-          </button>
+          <div className={style.tabGroup}>
+            <button 
+              className={`w3-bar-item w3-button w3-hover-white ${style.tab} ${activeTab === "projects" ? style.active : ""}`}
+              onClick={() => setActiveTab("projects")}
+            >
+              Projetos e Inscrições
+            </button>
+            <button 
+              className={`w3-bar-item w3-button w3-hover-white ${style.tab} ${activeTab === "publications" ? style.active : ""}`}
+              onClick={() => setActiveTab("publications")}
+            >
+              Publicações
+            </button>
+            <button 
+              className={`w3-bar-item w3-button w3-hover-white ${style.tab} ${activeTab === "metrics" ? style.active : ""}`}
+              onClick={() => setActiveTab("metrics")}
+            >
+              Métricas do Projeto
+            </button>
+          </div>
+
+          <div className={style.currentSemesterBadge}>
+            {currentSemester ? `${currentSemester.name}${currentSemester.year ? ` · ${currentSemester.year}` : ""}` : "Semestre atual"}
+          </div>
         </div>
 
         <section className={style.content}>

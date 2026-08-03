@@ -46,6 +46,13 @@ export function NavBar() {
             Repositório
           </NavLink>
 
+          <NavLink
+            to="/metricas-publicas"
+            className={({ isActive }) => (isActive ? style.active : undefined)}
+          >
+            Métricas Públicas
+          </NavLink>
+
           {/* ✅ só professor */}
           {isLogged && isProfessor && (
             <NavLink

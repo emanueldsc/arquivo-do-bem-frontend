@@ -54,32 +54,20 @@ export const projectService = {
   },
 
   async getProjectMetrics(documentId) {
-    const res = await api.get(
-      `/api/projects?filters[documentId][$eq]=${encodeURIComponent(documentId)}&populate[users][fields][0]=username&populate[users][fields][1]=email&populate[leader][fields][0]=username&populate[leader][fields][1]=email&populate[semesters][fields][0]=name&populate[semesters][fields][1]=year&populate[semesters][fields][2]=impacted_lives`
-    );
-
-    const item = res.data?.data?.[0];
+    const res = await api.get(`/api/projects/${encodeURIComponent(documentId)}/metrics`);
+    const item = res.data?.data;
     if (!item) return null;
-
-    const base = item.attributes || item;
-    const users = (base.users?.data || base.users || [])
-      .map(mapRelationItem)
-      .filter(Boolean);
-    const semesters = (base.semesters?.data || base.semesters || [])
-      .map(mapRelationItem)
-      .filter(Boolean);
-    const leader = mapRelationItem(base.leader?.data || base.leader);
 
     return {
       id: item.documentId || item.id,
       documentId: item.documentId || item.id,
-      name: base.name || "(sem nome)",
-      slug: base.slug,
-      isActive: base.is_active !== false,
-      users,
-      leader,
-      semesters,
-      maxStudents: base.max_students ?? 0,
+      name: item.name || "(sem nome)",
+      slug: item.slug,
+      isActive: item.isActive !== false,
+      users: item.users || [],
+      leader: item.leader || null,
+      semesters: item.semesters || [],
+      maxStudents: item.maxStudents ?? 0,
     };
   },
 
